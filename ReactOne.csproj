@@ -34,7 +34,6 @@
     <Content Include="docs\**\*.*" />
     <Content Include="src\**\*.*" />
     <Content Include=".editorconfig" />
-    <Content Include=".jshintrc" />
     <Content Include="gulpfile.js" />
     <Content Include="package.json" />
     <Content Include="README.txt" />
