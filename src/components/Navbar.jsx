@@ -14,7 +14,7 @@ var Navbar = React.createClass({
         <div className="container">
           <Link className="navbar-brand row" to="home">
             <img src="/images/logo-small.png" width="38" height="38" alt="React" />
-            {' Facebook React Starter Kit'}
+            {' XL2List'}
           </Link>
         </div>
       </div>

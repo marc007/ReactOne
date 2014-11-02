@@ -13,9 +13,10 @@ var {Routes, Route} = require('react-router');
 React.renderComponent(
   <Routes location="history">
     <Route name="app" path="/" handler={require('./layouts/Default.jsx')}>
-      <Route name="home" path="/" handler={require('./pages/Home.jsx')} />
-      <Route name="privacy" handler={require('./pages/Privacy.jsx')} />
-    </Route>
+		<Route name="home" path="/" handler={require('./pages/Home.jsx')} />
+		<Route name="privacy" handler={require('./pages/Privacy.jsx')} />
+		<Route name="login" handler={require('./pages/Login.jsx')} />
+	</Route>
   </Routes>,
   document.body
 );
