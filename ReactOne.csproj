@@ -29,7 +29,6 @@
     <TypeScriptModuleKind>AMD</TypeScriptModuleKind>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="build\**\*.*" />
     <Content Include="config\**\*.*" />
     <Content Include="docs\**\*.*" />
     <Content Include="src\**\*.*" />
@@ -40,6 +39,13 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="test\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="src\components\Jumbotron.jsx" />
+    <Content Include="src\components\Loginform.jsx" />
+    <None Include="src\components\Navbarbottom.jsx" />
+    <Content Include="src\pages\Login.jsx" />
+    <Content Include="src\styles\loginform.less" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
