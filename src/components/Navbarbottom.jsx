@@ -15,8 +15,7 @@ var Navbarbottom = React.createClass({
 			<p className="text-muted">
 				{' © MHC '}{this.props.date.getFullYear()}{' • '}
 				<Link to="home">Home</Link> {' • '}
-				<Link to="privacy">Privacy</Link> {' • '}
-				<Link to="login">Login</Link>
+				<Link to="privacy">Privacy</Link>
 			</p>
 			</div>
 		</div>
