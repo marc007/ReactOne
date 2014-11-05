@@ -11,9 +11,9 @@ var HomePage = React.createClass({
     return (
       <div className="container">
         <div className="row">
-			<div className="col-sm-12">
-				<h3>Welcome!</h3>
-			</div>
+          <div className="col-sm-12">
+            <h3>Welcome!</h3>
+          </div>
         </div>
       </div>
     );

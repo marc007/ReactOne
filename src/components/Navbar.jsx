@@ -19,7 +19,7 @@ var Navbar = React.createClass({
 		  <div className="navbar-collapse collapse">
 			<ul className="navbar-nav navbar-right">
 				<li><Link className="navbar-brand" to="login">Login</Link></li>
-				<li><Link className="navbar-brand" to="login">Register</Link></li>
+				<li><Link className="navbar-brand" to="register">Register</Link></li>
 			</ul>
 		  </div>
         </div>
