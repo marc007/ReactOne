@@ -11,8 +11,9 @@ var Jumbotron = React.createClass({
     return (
         <div className="jumbotron">
           <div className="container text-center">
-            <h1>XL2List</h1>
-            <p>EXCEL to list made easier</p>
+            <h1><span className="glyphicon glyphicon-list-alt jumbotron-logo-color"></span> XL2List</h1>
+            <p>Sharing lists made easier</p>
+			<p><a className="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
           </div>
         </div>
     );

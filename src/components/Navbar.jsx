@@ -14,8 +14,7 @@ var Navbar = React.createClass({
       <div className="navbar-top">
         <div className="container">
           <Link className="navbar-brand row" to="home">
-            <img src="/images/logo-small.png" width="38" height="38" alt="React" />
-            {' XL2List'}
+            <span className="glyphicon glyphicon-list-alt navbar-logo-color"></span> XL2List
           </Link>
 		  <div className="navbar-collapse collapse">
 			<ul className="navbar-nav navbar-right">
