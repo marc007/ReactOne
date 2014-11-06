@@ -212,4 +212,4 @@ node_modules
 .lock-wscript
 
 ## WebStorm
-.idea/
+.idea
