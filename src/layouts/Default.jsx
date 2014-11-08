@@ -7,16 +7,16 @@
 var React = require('react');
 var {Link} = require('react-router');
 var Navbar = require('../components/Navbar.jsx');
-var Navbarbottom = require('../components/Navbarbottom.jsx');
 var Jumbotron = require('../components/Jumbotron.jsx');
+var Navbarbottom = require('../components/Navbarbottom.jsx');
 var today = new Date();
 
 var DefaultLayout = React.createClass({
-  render() {
+  render: function() {
     return (
       <div>
         <Navbar />
-		<Jumbotron />
+		    <Jumbotron />
         <this.props.activeRouteHandler />
         <Navbarbottom date={today} />
       </div>

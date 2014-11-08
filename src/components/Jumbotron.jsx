@@ -13,7 +13,6 @@ var Jumbotron = React.createClass({
           <div className="container text-center">
             <h1><span className="glyphicon glyphicon-list-alt jumbotron-logo-color"></span> XL2List</h1>
             <p>Sharing lists made easier and secure</p>
-			<p><a className="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
           </div>
         </div>
     );
