@@ -4,6 +4,10 @@
 
 'use strict';
 
+          // <!-- <input type="email" ref="email" className="form-control" placeholder="Email address" required autofocus /> -->
+          // <!-- <input type="password" ref="password" className="form-control" placeholder="Password" required /> -->
+
+
 var React = require('react');
 
 var Loginform = React.createClass({
@@ -11,6 +15,8 @@ var Loginform = React.createClass({
     e.preventDefault();
     var email = this.refs.email.getDOMNode().value.trim();
     var password = this.refs.password.getDOMNode().value.trim();
+    email = "test6@test.com";
+    password = "006";
     if(!email || !password)
     {
       return;
@@ -25,8 +31,8 @@ var Loginform = React.createClass({
       <div className="loginform">
         <form className="form-signin" role="form" onSubmit={this.handleLogin}>
           <h2 className="form-signin-heading">Please sign in</h2>
-          <input type="email" ref="email" className="form-control" placeholder="Email address" required autofocus />
-          <input type="password" ref="password" className="form-control" placeholder="Password" required />
+          <input type="text" ref="email" className="form-control" placeholder="Email address" />
+          <input type="text" ref="password" className="form-control" placeholder="Password" />
           <div className="checkbox">
             <label>
               <input type="checkbox" value="remember-me" />
