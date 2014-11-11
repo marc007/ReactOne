@@ -17,8 +17,12 @@ var webpack = require('webpack');
 var browserSync = require('browser-sync');
 var pagespeed = require('psi');
 var argv = require('minimist')(process.argv.slice(2));
+var url = require("url");
+var fs = require("fs");
+var historyApiFallback = require('connect-history-api-fallback');
 
 // Settings
+var DEFAULTFILE = "index.html";               // Default File for browser-sync
 var DEST = './build';                         // The build output folder
 var RELEASE = !!argv.release;                 // Minimize and optimize during a build?
 var GOOGLE_ANALYTICS_ID = 'UA-XXXXX-X';       // https://www.google.com/analytics/web/
@@ -161,7 +165,19 @@ gulp.task('serve', function (cb) {
       // Note: this uses an unsigned certificate which on first access
       //       will present a certificate warning in the browser.
       // https: true,
-      server: DEST,
+      server: {
+        baseDir: DEST,
+        middleware: function(req, res, next) {
+            var fileName = url.parse(req.url);
+            var folder = path.resolve(__dirname, DEST);
+            fileName = fileName.href.split(fileName.search).join("");
+            var fileExists = fs.existsSync(folder + fileName);
+            if (!fileExists && fileName.indexOf("browser-sync-client") < 0) {
+                req.url = "/" + DEFAULTFILE;
+            }
+            return next();
+        }      
+      },
       host: process.env.IP,
       port:process.env.PORT
     });
