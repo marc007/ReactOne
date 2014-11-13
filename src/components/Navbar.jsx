@@ -5,10 +5,11 @@
 'use strict';
 
 var React = require('react');
-var {Link} = require('react-router');
+var Router = require('react-router');
+var Link = Router.Link;
 
 var LoginBar = React.createClass({
-  render() {
+  render: function() {
     return (
         <ul className="nav navbar-nav navbar-right">
           <li>
@@ -23,22 +24,35 @@ var LoginBar = React.createClass({
 });
 
 var LoggedBar = React.createClass({
-  render() {
+  mixins: [ Router.Navigation ],
+  loggingOut: function() {
+    ParseUser.doLogout();
+    this.props.onUserLogout();
+    //Router.Navigation.transitionTo('home');
+    return;
+  },
+  render: function() {
     return (
         <ul className="nav navbar-nav navbar-right">
           <li>
-            <Link className="navbar-brand" to="home">{'Welcome back, '+this.props.username}</Link>
+            <span className="navbar-brand" >{'Welcome back, '+this.props.loggeduser.getEmail()}</span>
           </li>
           <li>
-            <Link className="navbar-brand" to="home">Logout</Link>
+            <a className="navbar-brand" onClick={this.loggingOut}>Logout</a>
           </li>
         </ul>
-      );
+    );
   }
 });
 
 var Navbar = React.createClass({
+  logoutUser: function() {
+    this.props.onUserLogout();
+  },
   render: function() {
+    var LoginNav = (this.props.currentuser === null ? 
+                        <LoginBar /> : 
+                        <LoggedBar loggeduser={this.props.currentuser}  onUserLogout={this.logoutUser} />);
     return (
       <nav class="navbar navbar-default" role="navigation">
         <div className="navbar-top">
@@ -47,10 +61,7 @@ var Navbar = React.createClass({
               <span className="glyphicon glyphicon-list-alt navbar-logo-color"></span> XL2List
             </Link>
             <div className="navbar-collapse collapse">
-                {(this.props.currentuser == '' ? 
-                  <LoginBar /> : 
-                  <LoggedBar username={this.props.currentuser} />
-                )}
+                {LoginNav}
             </div>
           </div>
         </div>

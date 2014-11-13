@@ -5,36 +5,33 @@
 'use strict';
 
 var React = require('react');
-var {Link} = require('react-router');
+var Router = require('react-router');
+var Navigation = AppRouter.Navigation;
+var Link = Router.Link;
 
 var Navbar = require('../components/Navbar.jsx');
 var Jumbotron = require('../components/Jumbotron.jsx');
 var Navbarbottom = require('../components/Navbarbottom.jsx');
 var today = new Date();
 
-//var currentUser = Parse.User.current();
-// var query = new Parse.Query(Parse.User);
-// query.find({
-//   success: function(users) {
-//     for (var i = 0; i < users.length; ++i) {
-//       console.log(users[i].get('username'));
-//     }
-//   }
-// });
-
 var DefaultLayout = React.createClass({
+  mixins: [ Navigation ],
   getInitialState: function() {
-      return {user: ''};
+      return {user: null};
   },
-  userStatus: function(usr) {
+  loginUser: function(usr) {
     this.setState({user : usr});
+  },
+  logoutUser : function() {
+    this.setState({user : null});
+    this.transitionTo('home');
   },
   render: function() {
     return (
       <div>
-        <Navbar currentuser={this.state.user} />
+        <Navbar currentuser={this.state.user} onUserLogout={this.logoutUser} />
 		    <Jumbotron />
-        <this.props.activeRouteHandler userstatus={this.userStatus} />
+        <this.props.activeRouteHandler onUserLogin={this.loginUser} />
         <Navbarbottom date={today} />
       </div>
     );

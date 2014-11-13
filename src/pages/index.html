@@ -8,7 +8,7 @@
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="css/bootstrap.css">
-  <script src="//www.parsecdn.com/js/parse-1.3.1.min.js"></script>
+  <script type="text/javascript" src="//www.parsecdn.com/js/parse-1.3.1.min.js"></script>
 </head>
 
 <body>
@@ -18,7 +18,23 @@
     
   <!-- Parse Initialization -->
   <script>
-    // <!--Parse.initialize("VzfpPQ473axJ5uRnQJlLwP35DgsaybTzy9JdSpKs", "qaBwzCR8kV0WSNIdjbudVELukVVIYBj1JbWdbD7q");-->
+    Parse.initialize("VzfpPQ473axJ5uRnQJlLwP35DgsaybTzy9JdSpKs", "qaBwzCR8kV0WSNIdjbudVELukVVIYBj1JbWdbD7q");
+
+    var ParseTool = function () {
+      this.isReady = true;
+      this.currentUser = Parse.User.current();
+    };
+    
+    ParseTool.prototype.doLogout = function() {
+      if(!this.isReady)
+      {
+          console.log('Initialize Parse API');
+          this.setAPIKey();
+          this.isReady = true;
+      }   
+      Parse.User.logOut();
+    };
+    var ParseUser = new ParseTool();    
   </script>
 
   <script src="app.js"></script>
