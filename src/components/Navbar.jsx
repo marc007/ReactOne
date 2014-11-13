@@ -24,11 +24,9 @@ var LoginBar = React.createClass({
 });
 
 var LoggedBar = React.createClass({
-  mixins: [ Router.Navigation ],
   loggingOut: function() {
     ParseUser.doLogout();
     this.props.onUserLogout();
-    //Router.Navigation.transitionTo('home');
     return;
   },
   render: function() {

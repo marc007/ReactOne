@@ -20,6 +20,9 @@ var Loginform = React.createClass({
         messageclass: 'alert' 
       };
   },    
+  handleGoHome: function() {
+    this.transitionTo('home');
+  },
   handleLogin: function(e) {
     e.preventDefault();
 
@@ -56,7 +59,7 @@ var Loginform = React.createClass({
   render: function() {
     return (
       <div className="loginform">
-        <form className="form-signin" role="form" onSubmit={this.handleLogin}>
+        <form className="form-signin" role="form" onSubmit={this.handleLogin} >
           <h2 className="form-signin-heading">Login</h2>
           <input type="text" ref="email" className="form-control" placeholder="Email address" />
           <input type="text" ref="password" className="form-control" placeholder="Password" />
@@ -67,6 +70,7 @@ var Loginform = React.createClass({
             </label>
           </div>
           <button className="btn btn-lg btn-block" type="submit">Login</button>
+          <button className="btn btn-lg btn-block" onClick={this.handleGoHome}>Go Home</button>
           <p>
             <div className={this.state.messageclass} role="alert">{this.state.message}</div>
           </p>

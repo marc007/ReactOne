@@ -6,7 +6,6 @@
 
 var React = require('react');
 var Router = require('react-router');
-var Navigation = AppRouter.Navigation;
 var Link = Router.Link;
 
 var Navbar = require('../components/Navbar.jsx');
@@ -15,7 +14,8 @@ var Navbarbottom = require('../components/Navbarbottom.jsx');
 var today = new Date();
 
 var DefaultLayout = React.createClass({
-  mixins: [ Navigation ],
+  mixins: [ Router.Navigation ],
+  
   getInitialState: function() {
       return {user: null};
   },
@@ -24,7 +24,8 @@ var DefaultLayout = React.createClass({
   },
   logoutUser : function() {
     this.setState({user : null});
-    this.transitionTo('home');
+    this.props.router();
+    //this.props.transitionTo('home');
   },
   render: function() {
     return (
