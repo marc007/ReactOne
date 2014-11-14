@@ -11,7 +11,7 @@ var React = require('react');
 var Router = require('react-router');
 
 // Parse Initialization
-Parse.initialize("VzfpPQ473axJ5uRnQJlLwP35DgsaybTzy9JdSpKs", "qaBwzCR8kV0WSNIdjbudVELukVVIYBj1JbWdbD7q");    
+// Parse.initialize("VzfpPQ473axJ5uRnQJlLwP35DgsaybTzy9JdSpKs", "qaBwzCR8kV0WSNIdjbudVELukVVIYBj1JbWdbD7q");    
 
 var Loginform = React.createClass({
   getInitialState: function() {
@@ -23,34 +23,44 @@ var Loginform = React.createClass({
   handleLogin: function(e) {
     e.preventDefault();
 
-    var email = this.refs.email.getDOMNode().value.trim();
-    var password = this.refs.password.getDOMNode().value.trim();
-    if(!email || !password)
+    var emailtxt = this.refs.email.getDOMNode().value.trim();
+    var passwordtxt = this.refs.password.getDOMNode().value.trim();
+    if(this.props.isOnline)
     {
-      email = "test6@test.com";
-      password = "006";
-      //return;
+      if(!emailtxt || !passwordtxt)
+      {
+        //return;
+      }
+      // Parse.User.logIn(email, password, {
+      //     success: function(user) {
+      //         var currentUser = Parse.User.current();
+      //         this.setState({
+      //           message : 'login successful!',
+      //           messageclass : 'alert alert-info'
+      //         });
+      //         this.props.onUserLogin(currentUser);
+      //         return;
+      //     }.bind(this),
+      //     error: function(user,error) {
+      //         this.setState({
+      //           message : 'login not successful! --> '+error.message,
+      //           messageclass : 'alert alert-danger'
+      //         });
+      //         return;
+      //     }.bind(this)
+      // })
     }
-    Parse.User.logIn(email, password, {
-        success: function(user) {
-            var currentUser = Parse.User.current();
-            this.setState({
-              message : 'login successful!',
-              messageclass : 'alert alert-info'
-            });
-            this.props.onUserLogin(currentUser);
-            return;
-        }.bind(this),
-        error: function(user,error) {
-            this.setState({
-              message : 'login not successful! --> '+error.message,
-              messageclass : 'alert alert-danger'
-            });
-            return;
-        }.bind(this)
-    })
+    else
+    {
+      emailtxt = "test6@test.com";
+      passwordtxt = "006";
+    }
+    var currentUser = {
+      email : emailtxt
+    }
     this.refs.email.getDOMNode().value = '';
     this.refs.password.getDOMNode().value = '';
+    this.props.onUserLogin(currentUser);
     return;
   },
   render: function() {

@@ -17,24 +17,27 @@
     <![endif]-->
     
   <!-- Parse Initialization -->
-  <script>
-    Parse.initialize("VzfpPQ473axJ5uRnQJlLwP35DgsaybTzy9JdSpKs", "qaBwzCR8kV0WSNIdjbudVELukVVIYBj1JbWdbD7q");
-
-    var ParseTool = function () {
-      this.isReady = true;
-      this.currentUser = Parse.User.current();
-    };
+    <!--var ParseTool = function () {-->
+    <!--  this.isReady = true;-->
+    <!--  this.currentUser = Parse.User.current();-->
+    <!--};-->
     
-    ParseTool.prototype.doLogout = function() {
-      if(!this.isReady)
-      {
-          console.log('Initialize Parse API');
-          this.setAPIKey();
-          this.isReady = true;
-      }   
-      Parse.User.logOut();
-    };
-    var ParseUser = new ParseTool();    
+    <!--ParseTool.prototype.doLogout = function() {-->
+    <!--  if(!this.isReady)-->
+    <!--  {-->
+    <!--      console.log('Initialize Parse API');-->
+    <!--      this.setAPIKey();-->
+    <!--      this.isReady = true;-->
+    <!--  }   -->
+    <!--  Parse.User.logOut();-->
+    <!--};-->
+
+  <script>
+    var isOnline = false;
+    if(isOnline)
+    {
+      Parse.initialize("VzfpPQ473axJ5uRnQJlLwP35DgsaybTzy9JdSpKs", "qaBwzCR8kV0WSNIdjbudVELukVVIYBj1JbWdbD7q");
+    }
   </script>
 
   <script src="app.js"></script>

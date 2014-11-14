@@ -12,7 +12,7 @@ var HomePage = React.createClass({
       <div className="container">
         <div className="row">
           <div className="col-sm-12">
-            <h3>Welcome!</h3>
+            <h3>Welcome Home!</h3>
           </div>
         </div>
       </div>

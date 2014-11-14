@@ -14,7 +14,7 @@ var LoginPage = React.createClass({
     render: function() {
         return (
         	<div className="container">
-        		<Loginform onUserLogin={this.loginUser} />
+        		<Loginform isOnline={isOnline} onUserLogin={this.loginUser} />
         	</div>
         );
     }

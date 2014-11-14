@@ -7,7 +7,7 @@
 var React = require('react');
 
 var Jumbotron = React.createClass({
-  render() {
+  render: function() {
     return (
         <div className="jumbotron">
           <div className="container text-center">
