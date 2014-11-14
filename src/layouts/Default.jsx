@@ -24,14 +24,18 @@ var DefaultLayout = React.createClass({
   },
   logoutUser : function() {
     this.setState({user : null});
-    this.props.router();
-    //this.props.transitionTo('home');
+    this.transitionTo('home');
+  },
+  handleGoHome: function(e) {
+    e.preventDefault();
+    this.transitionTo('/');
   },
   render: function() {
     return (
       <div>
         <Navbar currentuser={this.state.user} onUserLogout={this.logoutUser} />
 		    <Jumbotron />
+        <button className="btn btn-lg btn-block" onClick={this.handleGoHome}>Go Home</button>
         <this.props.activeRouteHandler onUserLogin={this.loginUser} />
         <Navbarbottom date={today} />
       </div>
