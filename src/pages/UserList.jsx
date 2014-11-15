@@ -6,13 +6,13 @@
 
 var React = require('react');
 
-var fourOfourPage = React.createClass({
+var UserListPage = React.createClass({
   render: function() {
     return (
       <div className="container">
         <div className="row">
           <div className="col-sm-12">
-            <h3>Oops! Don't know that one yet.</h3>
+            <h3>My Lists</h3>
           </div>
         </div>
       </div>
@@ -20,4 +20,4 @@ var fourOfourPage = React.createClass({
   }
 });
 
-module.exports = fourOfourPage;
+module.exports = UserListPage;

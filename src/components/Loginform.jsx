@@ -14,6 +14,7 @@ var Router = require('react-router');
 // Parse.initialize("VzfpPQ473axJ5uRnQJlLwP35DgsaybTzy9JdSpKs", "qaBwzCR8kV0WSNIdjbudVELukVVIYBj1JbWdbD7q");    
 
 var Loginform = React.createClass({
+  mixins: [Router.Navigation],
   getInitialState: function() {
       return {
         message: '',
@@ -61,6 +62,8 @@ var Loginform = React.createClass({
     this.refs.email.getDOMNode().value = '';
     this.refs.password.getDOMNode().value = '';
     this.props.onUserLogin(currentUser);
+
+    this.transitionTo('userlist');
     return;
   },
   render: function() {

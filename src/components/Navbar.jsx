@@ -8,8 +8,8 @@ var React = require('react');
 var Router = require('react-router');
 var Link = Router.Link;
 
-var LoginBar = require('../components/Loginbar.jsx');
-var LoggedBar = require('../components/Loggedbar.jsx');
+var LoginBar = require('../components/Loginbar');
+var LoggedBar = require('../components/Loggedbar');
 
 var Navbar = React.createClass({
   logoutUser: function() {
@@ -18,7 +18,9 @@ var Navbar = React.createClass({
   render: function() {
     var LoginNav = (this.props.currentuser === null ? 
                         <LoginBar /> : 
-                        <LoggedBar loggeduser={this.props.currentuser}  onUserLogout={this.logoutUser} />);
+                        <LoggedBar loggeduser={this.props.currentuser}  
+                                    onUserLogout={this.logoutUser} 
+                                    isOnline={isOnline} />);
     return (
       <nav class="navbar navbar-default" role="navigation">
         <div className="navbar-top">

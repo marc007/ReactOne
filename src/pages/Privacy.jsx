@@ -7,7 +7,7 @@
 var React = require('react');
 
 var PrivacyPage = React.createClass({
-  render() {
+  render: function() {
     return (
       <div className="container">
         <h2>Privacy Policy</h2>

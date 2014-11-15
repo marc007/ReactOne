@@ -12,29 +12,28 @@ var NotFoundRoute = Router.NotFoundRoute;
 var DefaultRoute = Router.DefaultRoute;
 var Link = Router.Link;
 
-var DefaultPage = require('../layouts/DefaultLayout.jsx');
-var HomePage = require('../pages/Home.jsx');
-var PrivacyPage = require('../pages/Privacy.jsx');
-var LoginPage = require('../pages/Login.jsx');
-var RegisterPage = require('../pages/Register.jsx');
-var FourOFourPage = require('../pages/FourOFour.jsx');
-
+var DefaultPage = require('../layouts/DefaultLayout');
+var HomePage = require('../pages/Home');
+var PrivacyPage = require('../pages/Privacy');
+var LoginPage = require('../pages/Login');
+var RegisterPage = require('../pages/Register');
+var UserListPage = require('../pages/UserList');
+var FourOFourPage = require('../pages/FourOFour');
+  
 var AppRouter = React.createClass({
-  authenticated: function() {
-    // this.transitionTo('home');
-  },
   render: function() {
     return (
       <Routes location="history" >
-        <Route name="app" path="/" handler={DefaultPage} onAuthenticate={this.authenticated} >
-          <Route name="home" path="/" handler={HomePage} />
+        <Route name="app" path="/" handler={DefaultPage} >
+          <Route name="home" handler={HomePage} />
           <Route name="privacy" handler={PrivacyPage} />
           <Route name="login" handler={LoginPage} isOnline={isOnline} />
           <Route name="register" handler={RegisterPage} />
+          <Route name="userlist" path="/" handler={UserListPage} />
           <DefaultRoute handler={DefaultPage} />
         </Route>
         <NotFoundRoute handler={FourOFourPage}/>
-      </Routes>
+      </Routes>  
     );
   }
 });

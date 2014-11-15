@@ -5,20 +5,23 @@
 'use strict';
 
 var React = require('react');
-var {Link} = require('react-router');
+var Router = require('react-router');
+var Link = Router.Link;
+
+var today = new Date();
 
 var Navbarbottom = React.createClass({
-  render() {
+  render: function(){
     return (
-		<div className="navbar-footer">
-			<div className="container">
-			<p className="text-muted">
-				{' © MHC '}{this.props.date.getFullYear()}{' • '}
-				<Link to="home">Home</Link> {' • '}
-				<Link to="privacy">Privacy</Link>
-			</p>
+			<div className="navbar-footer">
+				<div className="container">
+				<p className="text-muted">
+					{' © MHC '}{today.getFullYear()}{' • '}
+					<Link to="home">Home</Link> {' • '}
+					<Link to="privacy">Privacy</Link>
+				</p>
+				</div>
 			</div>
-		</div>
     );
   }
 });

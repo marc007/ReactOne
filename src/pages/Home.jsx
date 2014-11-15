@@ -7,7 +7,7 @@
 var React = require('react');
 
 var HomePage = React.createClass({
-  render() {
+  render: function() {
     return (
       <div className="container">
         <div className="row">

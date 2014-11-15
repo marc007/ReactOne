@@ -5,7 +5,7 @@
 'use strict';
 
 var React = require('react');
-var Loginform = require('../components/Loginform.jsx');
+var Loginform = require('../components/Loginform');
 
 var LoginPage = React.createClass({
     loginUser: function(usr) {

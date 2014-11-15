@@ -5,14 +5,11 @@
 'use strict';
 
 var React = require('react');
-
 var Router = require('react-router');
-var Link = Router.Link;
 
-var Navbar = require('../components/Navbar.jsx');
-var Jumbotron = require('../components/Jumbotron.jsx');
-var Navbarbottom = require('../components/Navbarbottom.jsx');
-var today = new Date();
+var Navbar = require('../components/Navbar');
+var Jumbotron = require('../components/Jumbotron');
+var Navbarbottom = require('../components/Navbarbottom');
 
 var DefaultLayout = React.createClass({
   getInitialState: function() {
@@ -20,7 +17,6 @@ var DefaultLayout = React.createClass({
   },
   loginUser: function(usr) {
     this.setState({user : usr});
-    this.props.onAuthenticate();
   },
   logoutUser : function() {
     this.setState({user : null});
@@ -31,7 +27,7 @@ var DefaultLayout = React.createClass({
         <Navbar currentuser={this.state.user} onUserLogout={this.logoutUser} />
 		    <Jumbotron />
         <this.props.activeRouteHandler onUserLogin={this.loginUser} />
-        <Navbarbottom date={today} />
+        <Navbarbottom />
       </div>
     );
   }

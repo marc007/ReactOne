@@ -6,13 +6,19 @@
 
 var React = require('react');
 var Router = require('react-router');
-var Link = Router.Link;
 
 var LoggedBar = React.createClass({
+  mixins: [Router.Navigation],
   loggingOut: function() {
-    // ParseUser.doLogout();
+    if(this.props.isOnline)
+    {
+      //ParseUser.doLogout();
+    }
+    else
+    {
+    }
     this.props.onUserLogout();
-    return;
+    this.transitionTo('home');
   },
   render: function() {
     return (
