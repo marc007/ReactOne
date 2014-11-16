@@ -1,0 +1,9 @@
+[{
+    "key" : "item1",
+    "title": "My Wines",
+    "type": "Private"
+}, {
+    "key" : "item2",
+    "title": "My Books",
+    "type": "Public"
+}]

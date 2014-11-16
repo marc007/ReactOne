@@ -76,6 +76,15 @@ gulp.task('assets', function () {
     .pipe($.size({title: 'assets'}));
 });
 
+// Data files
+gulp.task('datas', function () {
+  src.datas = 'src/datas/**';
+  return gulp.src(src.datas)
+    .pipe($.changed(DEST+'/datas'))
+    .pipe(gulp.dest(DEST+'/datas'))
+    .pipe($.size({title: 'datas'}));
+});
+
 // Images
 gulp.task('images', function () {
   src.images = 'src/images/**';
@@ -148,7 +157,7 @@ gulp.task('bundle', function (cb) {
 
 // Build the app from source code
 gulp.task('build', ['clean'], function (cb) {
-  runSequence(['vendor', 'assets', 'images', 'pages', 'styles', 'bundle'], cb);
+  runSequence(['vendor', 'assets', 'datas', 'images', 'pages', 'styles', 'bundle'], cb);
 });
 
 // Launch a lightweight HTTP Server
@@ -183,6 +192,7 @@ gulp.task('serve', function (cb) {
     });
 
     gulp.watch(src.assets, ['assets']);
+    gulp.watch(src.datas, ['datas']);
     gulp.watch(src.images, ['images']);
     gulp.watch(src.pages, ['pages']);
     gulp.watch(src.styles, ['styles']);
