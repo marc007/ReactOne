@@ -5,6 +5,7 @@
 'use strict';
 
 var React = require('react');
+var {TabbedArea, TabPane} = require('react-bootstrap');
 
 var listitems = [
   {title: "My Wines", type: "Private"},
@@ -55,7 +56,16 @@ var ListItem = React.createClass({
 
 var UserListPage = React.createClass({
   render: function() {
+    var tabs = (
+      <TabbedArea defaultActiveKey={2}>
+        <TabPane key={1} tab="Tab 1">TablePane 1 content</TabPane>
+        <TabPane key={2} tab="Tab 2">TablePane 2 content</TabPane>
+      </TabbedArea>
+    );
     return (
+      <div>
+        {tabs}
+      </div>
       <div className="container">
         <div className="row">
           <div className="col-sm-12">

@@ -9,21 +9,27 @@
 
 var React = require('react');
 var Router = require('react-router');
+var {Button} = require('react-bootstrap');
 
 // Parse Initialization
 // Parse.initialize("VzfpPQ473axJ5uRnQJlLwP35DgsaybTzy9JdSpKs", "qaBwzCR8kV0WSNIdjbudVELukVVIYBj1JbWdbD7q");    
 
 var Loginform = React.createClass({
   mixins: [Router.Navigation],
+  
   getInitialState: function() {
       return {
+        isLoading: false,
         message: '',
         messageclass: 'alert' 
       };
-  },    
+  },
+  
   handleLogin: function(e) {
     e.preventDefault();
-
+    
+    this.setState({isLoading: true});
+    
     var emailtxt = this.refs.email.getDOMNode().value.trim();
     var passwordtxt = this.refs.password.getDOMNode().value.trim();
     if(this.props.isOnline)
@@ -59,17 +65,24 @@ var Loginform = React.createClass({
     var currentUser = {
       email : emailtxt
     }
-    this.refs.email.getDOMNode().value = '';
-    this.refs.password.getDOMNode().value = '';
-    this.props.onUserLogin(currentUser);
+    setTimeout(function() {
 
-    this.transitionTo('userlist');
+      this.refs.email.getDOMNode().value = '';
+      this.refs.password.getDOMNode().value = '';
+      this.props.onUserLogin(currentUser);
+  
+      this.transitionTo('userlist');
+      
+      this.setState({isLoading: false});
+    }.bind(this), 2000);
+
     return;
   },
   render: function() {
+    var isLoading = this.state.isLoading;
     return (
       <div className="loginform">
-        <form className="form-signin" role="form" onSubmit={this.handleLogin} >
+        <form className="form-signin" role="form">
           <h2 className="form-signin-heading">Login</h2>
           <input type="text" ref="email" className="form-control" placeholder="Email address" />
           <input type="text" ref="password" className="form-control" placeholder="Password" />
@@ -79,7 +92,13 @@ var Loginform = React.createClass({
             Remember me
             </label>
           </div>
-          <button className="btn btn-lg btn-block" type="submit">Login</button>
+          <Button
+            block
+            bStyle = 'primary'
+            disabled={isLoading}
+            onClick={!isLoading ? this.handleLogin : null}>
+            {isLoading ? 'Please wait...' : 'Login'}
+          </Button>
           <p>
             <div className={this.state.messageclass} role="alert">{this.state.message}</div>
           </p>
