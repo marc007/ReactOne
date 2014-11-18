@@ -5,7 +5,6 @@
 'use strict';
 
 var React = require('react');
-var {TabbedArea, TabPane} = require('react-bootstrap');
 
 var listitems = [
   {title: "My Wines", type: "Private"},
@@ -55,18 +54,28 @@ var ListItem = React.createClass({
 });
 
 var UserListPage = React.createClass({
+  getInitialState: function() {
+    return {
+      activelisttype: "Private"
+    };
+  },
+  changeListType: function(newtype,e) {
+    e.preventDefault();
+    this.setState({activelisttype : newtype});
+  },
   render: function() {
-    var tabs = (
-      <TabbedArea defaultActiveKey={2}>
-        <TabPane key={1} tab="Tab 1">TablePane 1 content</TabPane>
-        <TabPane key={2} tab="Tab 2">TablePane 2 content</TabPane>
-      </TabbedArea>
-    );
+    console.log(this.state.activelisttype);
     return (
-      <div>
-        {tabs}
-      </div>
       <div className="container">
+      <nav class="navbar navbar-inverse" role="navigation">
+        <div className="container">
+          <ul className="nav nav-pills">
+            <li role="presentation" onClick={this.changeListType.bind(this, 'Private')} className={(this.state.activelisttype == 'Private'? 'active' : '')}><a href="#">Private</a></li>
+            <li role="presentation" onClick={this.changeListType.bind(this, 'Shared')} className={(this.state.activelisttype == 'Shared'? 'active' : '')}><a href="#">Shared</a></li>
+            <li role="presentation" onClick={this.changeListType.bind(this, 'Public')} className={(this.state.activelisttype == 'Public'? 'active' : '')}><a href="#">Public</a></li>
+          </ul>      
+        </div>
+      </nav>
         <div className="row">
           <div className="col-sm-12">
             <h3>My Lists</h3>

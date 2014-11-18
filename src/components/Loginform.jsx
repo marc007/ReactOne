@@ -9,7 +9,7 @@
 
 var React = require('react');
 var Router = require('react-router');
-var {Button} = require('react-bootstrap');
+var Button = require('react-bootstrap').Button;
 
 // Parse Initialization
 // Parse.initialize("VzfpPQ473axJ5uRnQJlLwP35DgsaybTzy9JdSpKs", "qaBwzCR8kV0WSNIdjbudVELukVVIYBj1JbWdbD7q");    
