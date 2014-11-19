@@ -6,4 +6,20 @@
     "key" : "item2",
     "title": "My Books",
     "type": "Public"
+}, {
+    "key" : "item3",
+    "title": "My Places",
+    "type": "Private"
+}, {
+    "key" : "item4",
+    "title": "My Friends",
+    "type": "Shared"
+}, {
+    "key" : "item5",
+    "title": "My Recipes",
+    "type": "Public"
+}, {
+    "key" : "item6",
+    "title": "My Photos",
+    "type": "Private"
 }]

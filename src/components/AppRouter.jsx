@@ -18,6 +18,7 @@ var PrivacyPage = require('../pages/Privacy');
 var LoginPage = require('../pages/Login');
 var RegisterPage = require('../pages/Register');
 var UserListPage = require('../pages/UserList');
+var EditListPage = require('../pages/EditList');
 var FourOFourPage = require('../pages/FourOFour');
   
 var AppRouter = React.createClass({
@@ -29,7 +30,8 @@ var AppRouter = React.createClass({
           <Route name="privacy" handler={PrivacyPage} />
           <Route name="login" handler={LoginPage} isOnline={isOnline} />
           <Route name="register" handler={RegisterPage} />
-          <Route name="userlist" path="/" handler={UserListPage} />
+          <Route name="userlist" path="/" handler={UserListPage} url='../datas/userlist.json' />
+          <Route name="editlist" path="editlist/:keyItem" handler={EditListPage} />
           <DefaultRoute handler={DefaultPage} />
         </Route>
         <NotFoundRoute handler={FourOFourPage}/>

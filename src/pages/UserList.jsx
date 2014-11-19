@@ -5,6 +5,8 @@
 'use strict';
 
 var React = require('react');
+var Router = require('react-router');
+var Link = Router.Link;
 
 var listitems = [
   {title: "My Wines", type: "Private"},
@@ -12,74 +14,70 @@ var listitems = [
 ];
 
 var ListBox = React.createClass({
-  getInitialState: function() {
-    return {
-      listitems : []
-    };
-  },
-  componentDidMount: function() {
-    $.ajax({
-      url: this.props.url,
-      datatype: 'json',
-      success: function(data) {
-        this.setState({listitems : data});
-      }.bind(this),
-      error: function(xhr, status, err) {
-        console.error(this.props.url, status, err.toString());
-      }.bind(this)
-    });
-  },
   render: function() {
-    var items = this.state.listitems.map(function (item) {
+    var items = this.props.listitems.map(function (item) {
       return (
-        <ListItem key={item.key} item={item} />
+          <Link to="editlist" params={{keyItem: item.key}} className="list-group-item">{item.title} - {item.type}</Link>
       );
     });
     return (
-      <div>
-        {items}
-      </div>
-    );
-  }
-});
-
-var ListItem = React.createClass({
-  render: function() {
-    return (
-      <div className="listitem">
-        <li>{this.props.item.title} - {this.props.item.type}</li>
-      </div>
+        <span>{items}</span>
     );
   }
 });
 
 var UserListPage = React.createClass({
+  mixins: [Router.Navigation],
+  
   getInitialState: function() {
     return {
-      activelisttype: "Private"
+      listtype: 'Private',
+      listitems : [],
+      listitemkey: ''
     };
   },
-  changeListType: function(newtype,e) {
+  
+  getData: function() {
+    $.ajax({
+      url: this.props.url,
+      datatype: 'json',
+      success: function(data) {
+        var filter = this.state.listtype;
+        var datafiltered = data.filter(function(item) { return (item.type === filter);})
+        this.setState({listitems : datafiltered});
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error(url, status, err.toString());
+      }.bind(this)
+    });
+  },
+  componentDidMount: function() {
+    this.getData();
+  },
+  changeListType: function(newtype, e) {
     e.preventDefault();
-    this.setState({activelisttype : newtype});
+    this.setState({listtype : newtype});
+    this.getData();
   },
   render: function() {
-    console.log(this.state.activelisttype);
+    var filter = this.state.listtype;
     return (
       <div className="container">
-      <nav class="navbar navbar-inverse" role="navigation">
-        <div className="container">
-          <ul className="nav nav-pills">
-            <li role="presentation" onClick={this.changeListType.bind(this, 'Private')} className={(this.state.activelisttype == 'Private'? 'active' : '')}><a href="#">Private</a></li>
-            <li role="presentation" onClick={this.changeListType.bind(this, 'Shared')} className={(this.state.activelisttype == 'Shared'? 'active' : '')}><a href="#">Shared</a></li>
-            <li role="presentation" onClick={this.changeListType.bind(this, 'Public')} className={(this.state.activelisttype == 'Public'? 'active' : '')}><a href="#">Public</a></li>
-          </ul>      
-        </div>
-      </nav>
         <div className="row">
           <div className="col-sm-12">
             <h3>My Lists</h3>
-            <ListBox url="../datas/userlist.json"/>
+            <nav class="navbar navbar-inverse" role="navigation">
+              <div className="container">
+                <ul className="nav nav-pills">
+                  <li role="presentation" onClick={this.changeListType.bind(this, 'Private')} className={(filter == 'Private'? 'active' : '')}><a href="#">Private</a></li>
+                  <li role="presentation" onClick={this.changeListType.bind(this, 'Shared')} className={(filter == 'Shared'? 'active' : '')}><a href="#">Shared</a></li>
+                  <li role="presentation" onClick={this.changeListType.bind(this, 'Public')} className={(filter == 'Public'? 'active' : '')}><a href="#">Public</a></li>
+                </ul>      
+              </div>
+            </nav>
+            <div className="list-group">
+              <ListBox listitems={this.state.listitems} />
+            </div>
           </div>
         </div>
       </div>

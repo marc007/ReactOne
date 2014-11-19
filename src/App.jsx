@@ -13,4 +13,4 @@ if('production' != process.env.NODE_ENV)
     (window !== window.top ? window.top : window).React = React;
 }
 
-React.render(<AppRouter />, document.body);
+React.render(React.createElement(AppRouter, null), document.body);
