@@ -74,7 +74,7 @@ var Loginform = React.createClass({
       this.transitionTo('userlist');
       
       this.setState({isLoading: false});
-    }.bind(this), 2000);
+    }.bind(this), 1000);
 
     return;
   },

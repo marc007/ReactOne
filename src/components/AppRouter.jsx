@@ -31,7 +31,7 @@ var AppRouter = React.createClass({
           <Route name="login" handler={LoginPage} isOnline={isOnline} />
           <Route name="register" handler={RegisterPage} />
           <Route name="userlist" path="/" handler={UserListPage} url='../datas/userlist.json' />
-          <Route name="editlist" path="editlist/:keyItem" handler={EditListPage} />
+          <Route name="editlist" path=":keyItem" handler={EditListPage} url='../datas/userlist.json' />
           <DefaultRoute handler={DefaultPage} />
         </Route>
         <NotFoundRoute handler={FourOFourPage}/>

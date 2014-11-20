@@ -182,7 +182,7 @@ gulp.task('serve', function (cb) {
             fileName = fileName.href.split(fileName.search).join("");
             var fileExists = fs.existsSync(folder + fileName);
             if (!fileExists && fileName.indexOf("browser-sync-client") < 0) {
-                req.url = "/" + DEFAULTFILE;
+                req.url = '/' + DEFAULTFILE;
             }
             return next();
         }      
