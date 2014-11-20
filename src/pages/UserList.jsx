@@ -33,15 +33,20 @@ var UserListPage = React.createClass({
     return {
       listtype: 'Private',
       listitems : [],
-      listitemkey: ''
+      listitemkey: '',
+      listitemprivatecount: 0,
+      listitemsharedcount: 0,
+      listitempubliccount: 0
     };
   },
-  
   getData: function() {
     $.ajax({
       url: this.props.url,
       datatype: 'json',
       success: function(data) {
+        this.setState({listitemprivatecount : data.filter(function(item) {return (item.type == 'Private');}).length});
+        this.setState({listitemsharedcount : data.filter(function(item) {return (item.type == 'Shared');}).length});
+        this.setState({listitempubliccount : data.filter(function(item) {return (item.type == 'Public');}).length});
         var filter = this.state.listtype;
         var datafiltered = data.filter(function(item) { return (item.type === filter);})
         this.setState({listitems : datafiltered});
@@ -69,9 +74,15 @@ var UserListPage = React.createClass({
             <nav class="navbar navbar-inverse" role="navigation">
               <div className="container">
                 <ul className="nav nav-pills">
-                  <li role="presentation" onClick={this.changeListType.bind(this, 'Private')} className={(filter == 'Private'? 'active' : '')}><a href="#">Private</a></li>
-                  <li role="presentation" onClick={this.changeListType.bind(this, 'Shared')} className={(filter == 'Shared'? 'active' : '')}><a href="#">Shared</a></li>
-                  <li role="presentation" onClick={this.changeListType.bind(this, 'Public')} className={(filter == 'Public'? 'active' : '')}><a href="#">Public</a></li>
+                  <li role="presentation" onClick={this.changeListType.bind(this, 'Private')} className={(filter == 'Private'? 'active' : '')}>
+                    <a href="#">Private <span className='badge'>{this.state.listitemprivatecount}</span></a>
+                  </li>
+                  <li role="presentation" onClick={this.changeListType.bind(this, 'Shared')} className={(filter == 'Shared'? 'active' : '')}>
+                    <a href="#">Shared <span className='badge'>{this.state.listitemsharedcount}</span></a>
+                  </li>
+                  <li role="presentation" onClick={this.changeListType.bind(this, 'Public')} className={(filter == 'Public'? 'active' : '')}>
+                    <a href="#">Public <span className='badge'>{this.state.listitempubliccount}</span></a>
+                  </li>
                 </ul>      
               </div>
             </nav>

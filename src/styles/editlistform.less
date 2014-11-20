@@ -6,7 +6,7 @@
   background-color: darken(@body-bg, 0%);
 }
 .form-editlist {
-  max-width: 330px;
+  //max-width: 330px;
   padding: 15px;
   margin: 0 auto;
 }
@@ -34,6 +34,13 @@
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
 }
-.form-editlist .actionbutton button {
+.form-editlist .btn.active {
+    color: @editlist-togglebutton-color;
+    font-size: 16px;
+    font-weight: bold;
+    background-color:@editlist-togglebutton-bgcolor;
+}
+.form-editlist .btn.actionbutton {
     background-color:@editlist-button-color;
+    font-weight: bold;
 }
