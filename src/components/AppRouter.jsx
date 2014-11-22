@@ -12,14 +12,15 @@ var NotFoundRoute = Router.NotFoundRoute;
 var DefaultRoute = Router.DefaultRoute;
 var Link = Router.Link;
 
-var DefaultPage = require('../layouts/DefaultLayout');
-var HomePage = require('../pages/Home');
-var PrivacyPage = require('../pages/Privacy');
-var LoginPage = require('../pages/Login');
-var RegisterPage = require('../pages/Register');
-var UserListPage = require('../pages/UserList');
-var EditListPage = require('../pages/EditList');
-var FourOFourPage = require('../pages/FourOFour');
+var DefaultPage = require('../layouts/DefaultLayout.jsx');
+var HomePage = require('../pages/Home.jsx');
+var PrivacyPage = require('../pages/Privacy.jsx');
+var LoginPage = require('../pages/Login.jsx');
+var RegisterPage = require('../pages/Register.jsx');
+var UserListPage = require('../pages/UserList.jsx');
+var EditListPage = require('../pages/EditList.jsx');
+var NewListPage = require('../pages/NewList.jsx');
+var FourOFourPage = require('../pages/FourOFour.jsx');
   
 var AppRouter = React.createClass({
   render: function() {
@@ -30,6 +31,7 @@ var AppRouter = React.createClass({
           <Route name="privacy" handler={PrivacyPage} />
           <Route name="login" handler={LoginPage} isOnline={isOnline} />
           <Route name="register" handler={RegisterPage} />
+          <Route name="newlist" path=":listtype" handler={NewListPage} url='../datas/userlist.json' />
           <Route name="userlist" path="/" handler={UserListPage} url='../datas/userlist.json' />
           <Route name="editlist" path=":keyItem" handler={EditListPage} url='../datas/userlist.json' />
           <DefaultRoute handler={DefaultPage} />

@@ -5,19 +5,19 @@
 'use strict';
 
 var React = require('react');
-var EditListform = require('../components/EditListform');
+var EditListform = require('../components/EditListform.jsx');
 
 var EditListItem = React.createClass({
   render: function() {
     var li = this.props.listitem;
+    var loading = this.props.isloading;
     if (li != null) {
       return (
         <EditListform isOnline={isOnline} item={li[0]} />
       );
     }
-    else
-    {
-      return (<p>Sorry, Item Not Found!</p>);
+    else {
+      return (loading ? <div className="container"><h1>Loading...</h1></div> : <div className="container"><h1>Sorry, Item Not Found!</h1></div>);
     }
   }
 });
@@ -25,6 +25,7 @@ var EditListItem = React.createClass({
 var EditListPage = React.createClass({
   getInitialState: function() {
     return {
+      isloading: true,
       listitem: null
     };
   },
@@ -37,10 +38,11 @@ var EditListPage = React.createClass({
         var key = this.props.params.keyItem;
         var datafiltered = data.filter(function(item) { return (item.key === key);})
         var li = (datafiltered.length == 1 ? datafiltered : null);
-        this.setState({listitem : li});
+        this.setState({listitem : li, isloading : false});
       }.bind(this),
       error: function(xhr, status, err) {
         console.error(url, status, err.toString());
+        this.setState({isloading : false});
       }.bind(this)
     });
   },
@@ -49,7 +51,7 @@ var EditListPage = React.createClass({
       <div className="container">
         <div className="row">
           <div className="col-sm-12">
-            <EditListItem isOnline={isOnline} listitem={this.state.listitem} />
+            <EditListItem isOnline={isOnline} listitem={this.state.listitem} isloading={this.state.isloading} />
           </div>
         </div>
       </div>

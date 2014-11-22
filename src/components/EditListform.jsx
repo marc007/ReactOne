@@ -8,6 +8,55 @@ var React = require('react');
 var Router = require('react-router');
 var Button = require('react-bootstrap').Button;
 
+var EditListDecript = React.createClass({
+  getInitialState: function() {
+      return {
+        isLoading: false
+      };
+  },
+  handleDecrypt : function() {
+      this.refs.listcleartext.getDOMNode().value = "decrypted list here";
+  },
+  render: function() {
+    var isLoading = this.state.isLoading;
+    var elt;
+    if(this.props.listtype != 'Public')
+    {
+      elt = <div className='panel-body'>
+              <div className="row">
+                <div className='col-md-12'>
+                  <input type="password" ref="passphrase" className="form-control" placeholder="Paraphrase" />
+                </div>
+              </div>
+              <div className="row">
+                <div className='col-md-12'>
+                  <Button className="form-control btn actionbutton" bStyle='primary' disabled={isLoading} onClick={(!isLoading ? this.handleDecrypt : null)}>
+                      {(isLoading ? 'Please wait...' : 'Decrypt')}
+                  </Button>
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-md-12">
+                  <textarea ref="listcleartext" className="form-control" placeholder="Enter your paraphrase first!" rows="3"></textarea>
+                </div>
+              </div>
+            </div>;
+    }
+    else
+    {
+      elt = <div className='panel-body'>
+              No Encryption for Public List
+            </div>;
+    }
+    return (
+      <div className='panel panel-default'>
+        <div className='panel-heading'>Encryption / Decryption</div>
+        {elt}
+      </div>
+    );
+  } 
+});
+
 var EditListform = React.createClass({
   mixins: [Router.Navigation],
   
@@ -46,9 +95,6 @@ var EditListform = React.createClass({
 
     return;
   },
-  handleDecrypt : function() {
-      this.refs.listcleartext.getDOMNode().value = "decrypted list here";
-  },
   handleCancel : function() {
       this.transitionTo('userlist');
   },
@@ -76,28 +122,7 @@ var EditListform = React.createClass({
                     <Button type="button" className={classPublic}>Public</Button>
                 </div>
             </div> 
-            <div className='panel panel-default'>
-              <div className='panel-heading'>Encryption / Decryption</div>
-              <div className='panel-body'>
-                <div className="row">
-                  <div className='col-md-12'>
-                    <input type="password" ref="passphrase" className="form-control" placeholder="Paraphrase" />
-                  </div>
-                </div>
-                <div className="row">
-                  <div className='col-md-12'>
-                    <Button className="form-control btn actionbutton" bStyle='primary' disabled={isLoading} onClick={(!isLoading ? this.handleDecrypt : null)}>
-                        {(isLoading ? 'Please wait...' : 'Decrypt')}
-                    </Button>
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-md-12">
-                    <textarea ref="listcleartext" className="form-control" placeholder="Enter your paraphrase first!" rows="3"></textarea>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <EditListDecript listtype={this.props.item.type} />
             <div className='btn-group btn-group-justified'>
                 <div className='actionbutton btn-group'>
                     <Button className="form-control btn actionbutton" bStyle='primary' disabled={isLoading} onClick={(!isLoading ? this.handleSave : null)}>

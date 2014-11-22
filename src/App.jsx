@@ -5,7 +5,7 @@
 'use strict';
 
 var React = require('react');
-var AppRouter = require('./components/AppRouter');
+var AppRouter = require('./components/AppRouter.jsx');
 
 // Export React so the dev tools can find it
 if('production' != process.env.NODE_ENV)

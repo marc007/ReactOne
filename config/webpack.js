@@ -20,8 +20,9 @@ module.exports = function (release) {
       publicPatch: './build/'
     },
 
+    bail: !release,
     cache: !release,
-    debug: !release,
+    debug: true, //!release,
     devtool: false,
     entry: './src/App.jsx',
 

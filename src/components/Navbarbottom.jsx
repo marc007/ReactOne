@@ -16,9 +16,9 @@ var Navbarbottom = React.createClass({
 			<div className="navbar-footer">
 				<div className="container">
 				<p className="text-muted">
-					{' © MHC '}{today.getFullYear()}{' • '}
-					<Link to="home">Home</Link> {' • '}
-					<Link to="privacy">Privacy</Link>
+					<span className="copyright">{' © MHC '}{today.getFullYear()}{' • '}</span>
+					<Link className="navbar-logo-color" to="home">Home</Link> {' • '}
+					<Link className="navbar-logo-color" to="privacy">Privacy</Link>
 				</p>
 				</div>
 			</div>

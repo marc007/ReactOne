@@ -8,8 +8,8 @@ var React = require('react');
 var Router = require('react-router');
 var Link = Router.Link;
 
-var LoginBar = require('../components/Loginbar');
-var LoggedBar = require('../components/Loggedbar');
+var LoginBar = require('../components/Loginbar.jsx');
+var LoggedBar = require('../components/Loggedbar.jsx');
 
 var Navbar = React.createClass({
   logoutUser: function() {

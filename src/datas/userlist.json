@@ -1,25 +1,31 @@
 [{
     "key" : "item1",
     "title": "My Wines",
-    "type": "Private"
+    "type": "Private",
+    "listdata": ""
 }, {
     "key" : "item2",
     "title": "My Books",
-    "type": "Public"
+    "type": "Public",
+    "listdata": ""
 }, {
     "key" : "item3",
     "title": "My Places",
-    "type": "Private"
+    "type": "Private",
+    "listdata": ""
 }, {
     "key" : "item4",
     "title": "My Friends",
-    "type": "Shared"
+    "type": "Shared",
+    "listdata": ""
 }, {
     "key" : "item5",
     "title": "My Recipes",
-    "type": "Public"
+    "type": "Public",
+    "listdata": "Chicken soup"
 }, {
     "key" : "item6",
     "title": "My Photos",
-    "type": "Private"
+    "type": "Public",
+    "listdata": "https://lh5.googleusercontent.com/-2AwTw5gyXCc/U8qbU77Dx2I/AAAAAAAAFt0/_S79KOjAv8I/w426-h570/IMG_0909.JPG"
 }]
