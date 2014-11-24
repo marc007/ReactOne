@@ -20,7 +20,7 @@ var NewListPage = React.createClass({
   },
   render: function() {
     return (
-      <NewListform isOnline={isOnline} listtype={this.props.params.listtype} />
+      <NewListform isOnline={isOnline} />
     );
   }
 });

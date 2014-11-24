@@ -31,7 +31,7 @@ var AppRouter = React.createClass({
           <Route name="privacy" handler={PrivacyPage} />
           <Route name="login" handler={LoginPage} isOnline={isOnline} />
           <Route name="register" handler={RegisterPage} />
-          <Route name="newlist" path=":listtype" handler={NewListPage} url='../datas/userlist.json' />
+          <Route name="newlist" handler={NewListPage} url='../datas/userlist.json' />
           <Route name="userlist" path="/" handler={UserListPage} url='../datas/userlist.json' />
           <Route name="editlist" path=":keyItem" handler={EditListPage} url='../datas/userlist.json' />
           <DefaultRoute handler={DefaultPage} />

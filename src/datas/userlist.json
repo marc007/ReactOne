@@ -1,31 +1,50 @@
-[{
+[
+{
     "key" : "item1",
     "title": "My Wines",
     "type": "Private",
     "listdata": ""
-}, {
+}, 
+{
     "key" : "item2",
     "title": "My Books",
     "type": "Public",
-    "listdata": ""
-}, {
+    "encrypteddata": "",
+    "parentkey" : ""
+}, 
+{
     "key" : "item3",
     "title": "My Places",
     "type": "Private",
-    "listdata": ""
-}, {
+    "encrypteddata": "",
+    "parentkey" : ""
+}, 
+{
     "key" : "item4",
     "title": "My Friends",
     "type": "Shared",
-    "listdata": ""
-}, {
+    "encrypteddata": "",
+    "parentkey" : ""
+}, 
+{
     "key" : "item5",
     "title": "My Recipes",
     "type": "Public",
-    "listdata": "Chicken soup"
-}, {
+    "encrypteddata": "Chicken soup",
+    "parentkey" : ""
+}, 
+{
     "key" : "item6",
     "title": "My Photos",
     "type": "Public",
-    "listdata": "https://lh5.googleusercontent.com/-2AwTw5gyXCc/U8qbU77Dx2I/AAAAAAAAFt0/_S79KOjAv8I/w426-h570/IMG_0909.JPG"
-}]
+    "encrypteddata": "https://lh5.googleusercontent.com/-2AwTw5gyXCc/U8qbU77Dx2I/AAAAAAAAFt0/_S79KOjAv8I/w426-h570/IMG_0909.JPG",
+    "parentkey" : ""
+}, 
+{
+    "key" : "item7",
+    "title": "My Cars",
+    "type": "Private",
+    "encrypteddata": "Citroen",
+    "parentkey" : ""
+}
+]

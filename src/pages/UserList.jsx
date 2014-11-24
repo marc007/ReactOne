@@ -8,16 +8,13 @@ var React = require('react');
 var Router = require('react-router');
 var Link = Router.Link;
 
-var listitems = [
-  {title: "My Wines", type: "Private"},
-  {title: "My Books", type: "Public"}
-];
+var UserList = require('../models/list-in-memory.js');
 
 var ListBox = React.createClass({
   render: function() {
     var items = this.props.listitems.map(function (item) {
       return (
-          <Link to="editlist" params={{keyItem: item.key}} className="list-group-item">{item.title} - {item.type}</Link>
+        <Link to="editlist" params={{keyItem: item.key}} className="list-group-item">{item.title} - {item.type}</Link>
       );
     });
     return (
@@ -30,45 +27,43 @@ var UserListPage = React.createClass({
   mixins: [Router.Navigation],
   
   getInitialState: function() {
+    console.log('getInitialState');
     return {
-      listtype: 'Private',
+      listtype: UserList.Private,
       listitems : [],
-      listitemkey: '',
-      listitemprivatecount: 0,
-      listitemsharedcount: 0,
-      listitempubliccount: 0
+      listitemkey: ''
     };
   },
-  getData: function() {
-    $.ajax({
-      url: this.props.url,
-      datatype: 'json',
-      success: function(data) {
-        this.setState({listitemprivatecount : data.filter(function(item) {return (item.type == 'Private');}).length});
-        this.setState({listitemsharedcount : data.filter(function(item) {return (item.type == 'Shared');}).length});
-        this.setState({listitempubliccount : data.filter(function(item) {return (item.type == 'Public');}).length});
-        var filter = this.state.listtype;
-        var datafiltered = data.filter(function(item) { return (item.type === filter);})
-        this.setState({listitems : datafiltered});
-      }.bind(this),
-      error: function(xhr, status, err) {
-        console.error(url, status, err.toString());
-      }.bind(this)
+  dataLoaded: function() {
+    console.log('dataLoaded');
+    this.setState({
+      listitems : UserList.getAllOfType(this.state.listtype)
     });
   },
   componentDidMount: function() {
-    this.getData();
+    console.log('componentDidMount');
+    UserList.initialize(this.dataLoaded);
   },
   changeListType: function(newtype, e) {
     e.preventDefault();
-    this.setState({listtype : newtype});
-    this.getData();
+    this.setState({
+      listitems : UserList.getAllOfType(newtype),
+      listtype : newtype      
+    });
   },
   newList: function(e) {
     e.preventDefault();
-    this.transitionTo('newlist',{listtype:this.state.listtype});
+    this.transitionTo('newlist');
+  },
+  addList: function(newlist) {
+    var newitems = this.state.listitems;
+    newitems.push(newlist);
+    this.setState({
+      listitems : newitems
+    });
   },
   render: function() {
+    console.log('render');
     var filter = this.state.listtype;
     return (
       <div className="container">
@@ -86,14 +81,14 @@ var UserListPage = React.createClass({
               <nav class="navbar navbar-inverse" role="navigation">
                 <div className="container">
                   <ul className="nav nav-tabs">
-                    <li role="presentation" onClick={this.changeListType.bind(this, 'Private')} className={(filter == 'Private'? 'active' : '')}>
-                      <a href="#">Private <span className='badge'>{this.state.listitemprivatecount}</span></a>
+                    <li role="presentation" onClick={this.changeListType.bind(this, UserList.Private)} className={(this.state.listtype == UserList.Private? 'active' : '')}>
+                      <a href="#">{UserList.Private} <span className='badge'>{UserList.listitemsprivate.length}</span></a>
                     </li>
-                    <li role="presentation" onClick={this.changeListType.bind(this, 'Shared')} className={(filter == 'Shared'? 'active' : '')}>
-                      <a href="#">Shared <span className='badge'>{this.state.listitemsharedcount}</span></a>
+                    <li role="presentation" onClick={this.changeListType.bind(this, UserList.Shared)} className={(this.state.listtype == UserList.Shared? 'active' : '')}>
+                      <a href="#">{UserList.Shared} <span className='badge'>{UserList.listitemsshared.length}</span></a>
                     </li>
-                    <li role="presentation" onClick={this.changeListType.bind(this, 'Public')} className={(filter == 'Public'? 'active' : '')}>
-                      <a href="#">Public <span className='badge'>{this.state.listitempubliccount}</span></a>
+                    <li role="presentation" onClick={this.changeListType.bind(this, UserList.Public)} className={(this.state.listtype == UserList.Public? 'active' : '')}>
+                      <a href="#">{UserList.Public} <span className='badge'>{UserList.listitemspublic.length}</span></a>
                     </li>
                   </ul>
                 </div>
