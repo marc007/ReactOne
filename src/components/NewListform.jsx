@@ -96,7 +96,7 @@ var NewListform = React.createClass({
                       <div className="input-group">
                         <input type="password" ref="passphrase" placeholder="Paraphrase" className="form-control" onChange={this.handleChangeParaphrase} value={this.state.itempassphrase} required />
                         <span className="input-group-btn">
-                          <button className="form-control btn-info" type="submit" disabled={isEncrypting || (this.state.itempassphrase.length == 0) } onClick={(!isEncrypting ? this.handleEncrypt : null)}>{(isEncrypting ? 'Please wait...' : 'Encrypt')}</button>
+                          <button className="form-control btn-info" type="button" disabled={isEncrypting || (this.state.itempassphrase.length == 0) } onClick={(!isEncrypting ? this.handleEncrypt : null)}>{(isEncrypting ? 'Please wait...' : 'Encrypt')}</button>
                         </span>
                       </div>
                     </div>

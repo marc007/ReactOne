@@ -58,10 +58,10 @@ var UserListPage = React.createClass({
         <div className="row">
           <div className="col-sm-12">
             <div className="row">
-              <div className="col-sm-8">
+              <div className="col-xs-6 col-sm-10 col-md-10 col-lg-10">
                 <h3>My Lists</h3>
               </div>
-              <div className="col-sm-4">
+              <div className="col-xs-6 col-sm-2 col-md-2 col-lg-2">
                 <button type="button" className="btn btn-default btn-lg" onClick={this.newList}>Add New List</button>
               </div>
             </div>

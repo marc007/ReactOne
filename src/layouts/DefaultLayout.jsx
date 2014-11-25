@@ -25,7 +25,7 @@ var DefaultLayout = React.createClass({
     return (
       <div>
         <Navbar currentuser={this.state.user} onUserLogout={this.logoutUser} />
-		    <Jumbotron />
+		    <Jumbotron currentuser={this.state.user} />
         <this.props.activeRouteHandler onUserLogin={this.loginUser} />
         <Navbarbottom />
       </div>

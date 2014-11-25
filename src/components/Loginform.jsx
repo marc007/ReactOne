@@ -35,7 +35,8 @@ var Loginform = React.createClass({
     this.setState({userpassword: event.target.value});    
   },
   
-  handleCancel : function() {
+  handleCancel : function(e) {
+      e.preventDefault();
       this.setState({isLoading: false});
       this.transitionTo('home');
   },
@@ -79,16 +80,23 @@ var Loginform = React.createClass({
     var currentUser = {
       email : emailtxt
     }
-    setTimeout(function() {
+    this.refs.email.getDOMNode().value = '';
+    this.refs.password.getDOMNode().value = '';
+    this.props.onUserLogin(currentUser);
+    
+    this.setState({isLoading: false});
+    this.transitionTo('userlist');
 
-      this.refs.email.getDOMNode().value = '';
-      this.refs.password.getDOMNode().value = '';
-      this.props.onUserLogin(currentUser);
-      this.setState({isLoading: false});
+    // setTimeout(function() {
+
+    //   this.refs.email.getDOMNode().value = '';
+    //   this.refs.password.getDOMNode().value = '';
+    //   this.props.onUserLogin(currentUser);
+    //   this.setState({isLoading: false});
   
-      this.transitionTo('userlist');
+    //   this.transitionTo('userlist');
       
-    }.bind(this), UserListHelper.Timeout);
+    // }.bind(this), UserListHelper.Timeout);
 
     return;
   },
