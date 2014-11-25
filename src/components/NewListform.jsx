@@ -6,8 +6,7 @@
 
 var React = require('react');
 var Router = require('react-router');
-var UserList = require('../models/list-in-memory.js');
-var UserListItem = require('../models/list-in-memory.js');
+var UserListHelper = require('../models/list-in-memory.js');
 
 var NewListform = React.createClass({
   mixins: [Router.Navigation],
@@ -21,15 +20,10 @@ var NewListform = React.createClass({
         itemcleartext: 'this is the clear text',
         itempassphrase: '',
         itemencrypttext: '',
-        itemtype: UserList.Private
+        itemtype: UserListHelper.Private
       };
   },
   componentDidMount: function() {
-    
-  },
-  handleChangeType: function(newtype, e) {
-    e.preventDefault();
-    this.setState({itemtype : newtype});
   },
   handleChangeTitle: function(e) {
     this.setState({itemtitle: event.target.value});    
@@ -40,21 +34,21 @@ var NewListform = React.createClass({
   handleChangeParaphrase: function(e) {
     this.setState({itempassphrase: event.target.value});    
   },
-  handleChangeEncryptText: function(e) {
-    this.setState({itemencrypttext: event.target.value});    
-  },
   handleEncrypt : function(e) {
     e.preventDefault();
     
     this.setState({isEncrypting: true});
 
-    setTimeout(function() {
-
+    setTimeout(function(encrypt) {
+      var cleartext = this.state.itemcleartext;
+      var pass = this.state.itempassphrase;
+      var encrypt = UserListHelper.encryptClearText(cleartext, pass);
+      
       this.setState({
         isEncrypting: false,
-        itemencrypttext: this.state.itemcleartext.split('').reverse().join('')
+        itemencrypttext:  encrypt
       });
-    }.bind(this), 1000);
+    }.bind(this), UserListHelper.Timeout);
 
   },
   handleSave: function(e) {
@@ -62,17 +56,16 @@ var NewListform = React.createClass({
     
     this.setState({isSaving: true});
     
-    var newlist = UserList.createList(this.state.itemtitle, this.state.itemtype, this.state.itemencrypttext);
-    console.log(newlist);
-    UserList.addList(newlist);
-    console.log(UserList.listitemsprivate);
+    var newlist = UserListHelper.createList(this.state.itemtitle, this.state.itemtype, this.state.itemencrypttext);
+    UserListHelper.addList(newlist);
+    
     setTimeout(function() {
 
       this.refs.passphrase.getDOMNode().value = '';
       this.setState({isSaving: false});
       this.transitionTo('userlist');
       
-    }.bind(this), 1000);
+    }.bind(this), UserListHelper.Timeout);
 
     return;
   },
@@ -89,7 +82,7 @@ var NewListform = React.createClass({
           <div className="col-xs-12 col-sm-12 col-md-12">
             <div className="panel panel-default">
               <div className="panel-heading">
-                <h3 className="panel-title text-center">New {UserList.Private} List</h3>
+                <h3 className="panel-title text-center">New {UserListHelper.Private} List</h3>
               </div>
               <div className="panel-body">
                 <form role="form" onSubmit={this.handleSave}>
@@ -108,7 +101,7 @@ var NewListform = React.createClass({
                       </div>
                     </div>
                     <div className="form-group">
-                      <textarea ref="listencrypttext" className="form-control" placeholder="Enter your paraphrase first!" rows="3" onChange={this.handleChangeEncryptText} value={this.state.itemencrypttext} required></textarea>
+                      <textarea ref="listencrypttext" className="form-control" placeholder="Enter your paraphrase first!" rows="3" value={this.state.itemencrypttext} required readOnly></textarea>
                     </div>
                     <div className="row">
                       <div className="col-xs-6 col-sm-6 col-md-6">

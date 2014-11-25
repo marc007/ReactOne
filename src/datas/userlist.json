@@ -1,50 +1,51 @@
 [
-{
-    "key" : "item1",
-    "title": "My Wines",
-    "type": "Private",
-    "listdata": ""
-}, 
-{
-    "key" : "item2",
-    "title": "My Books",
-    "type": "Public",
-    "encrypteddata": "",
-    "parentkey" : ""
-}, 
-{
-    "key" : "item3",
-    "title": "My Places",
-    "type": "Private",
-    "encrypteddata": "",
-    "parentkey" : ""
-}, 
-{
-    "key" : "item4",
-    "title": "My Friends",
-    "type": "Shared",
-    "encrypteddata": "",
-    "parentkey" : ""
-}, 
-{
-    "key" : "item5",
-    "title": "My Recipes",
-    "type": "Public",
-    "encrypteddata": "Chicken soup",
-    "parentkey" : ""
-}, 
-{
-    "key" : "item6",
-    "title": "My Photos",
-    "type": "Public",
-    "encrypteddata": "https://lh5.googleusercontent.com/-2AwTw5gyXCc/U8qbU77Dx2I/AAAAAAAAFt0/_S79KOjAv8I/w426-h570/IMG_0909.JPG",
-    "parentkey" : ""
-}, 
-{
-    "key" : "item7",
-    "title": "My Cars",
-    "type": "Private",
-    "encrypteddata": "Citroen",
-    "parentkey" : ""
-}
+    {
+        "key" : "user1@test.com-1",
+        "title": "My Wines",
+        "type": "Private",
+        "encrypteddata": "",
+        "parentkey" : ""
+    }, 
+    {
+        "key" : "user1@test.com-2",
+        "title": "My Books",
+        "type": "Public",
+        "encrypteddata": "",
+        "parentkey" : ""
+    }, 
+    {
+        "key" : "user1@test.com-3",
+        "title": "My Places",
+        "type": "Private",
+        "encrypteddata": "",
+        "parentkey" : ""
+    }, 
+    {
+        "key" : "user1@test.com-4",
+        "title": "My Friends",
+        "type": "Shared",
+        "encrypteddata": "",
+        "parentkey" : ""
+    }, 
+    {
+        "key" : "user1@test.com-5",
+        "title": "My Recipes",
+        "type": "Public",
+        "encrypteddata": "Chicken soup",
+        "parentkey" : ""
+    }, 
+    {
+        "key" : "user1@test.com-6",
+        "title": "My Photos",
+        "type": "Public",
+        "encrypteddata": "https://lh5.googleusercontent.com/-2AwTw5gyXCc/U8qbU77Dx2I/AAAAAAAAFt0/_S79KOjAv8I/w426-h570/IMG_0909.JPG",
+        "parentkey" : ""
+    }, 
+    {
+        "key" : "user1@test.com-7",
+        "title": "My Cars",
+        "type": "Private",
+        "encrypteddata": "Citroen",
+        "parentkey" : ""
+    }
 ]

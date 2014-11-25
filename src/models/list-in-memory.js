@@ -1,79 +1,83 @@
-//'use strict';
-const PRIVATE = 'Private';
-const SHARED = 'Shared';
-const PUBLIC = 'Public';
 
-var UserListIem = {
-    key: '',
-    title: '',
-    type: PRIVATE,
-    encrypteddata: '',
-    parentkey: '',
+'use strict';
+
+function UserListItem(itemtitle,itemtype,itemencrypttext, itemparentkey) {
+    this.key = generatekey();
+    this.title = itemtitle;
+    this.type = itemtype;
+    this.encrypteddata = itemencrypttext;
+    this.parentkey = itemparentkey;
     
-    Inititalize: function(itemkey,itemtitle,itemtype,itemencrypttext,itemparentkey) {
-        this.key = itemkey;
-        this.title = itemtitle;
-        this.type = itemtype;
-        this.encrypteddata = itemencrypttext;
-        this.parentkey = itemparentkey;
-        return this;
+    function generatekey() {
+        return  Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
     }
-};
+}
 
 var UserLists = {
+    iscached: false,
     listUrl: "datas/userlist.json",
     listitemsprivate: [],
     listitemsshared: [],
     listitemspublic:[],
 
-    Private: PRIVATE,
-    Shared: SHARED,
-    Public: PUBLIC,
+    Private: 'Private',
+    Shared: 'Shared',
+    Public: 'Public',
+    Timeout: 0,
 
     initialize: function(cb) {
-        $.ajax({
-            url: this.listUrl,
-            datatype: 'json',
-            success: function(data) {
-                console.log('UserList.Initialize: success');
-                if(Array.isArray(data))
-                {
-                    this.listitemsprivate = data.filter(function(item) { return (item.type == PRIVATE)});
-                    this.listitemsshared = data.filter(function(item) { return (item.type == SHARED)});
-                    this.listitemspublic = data.filter(function(item) { return (item.type == PUBLIC)});
-                }
-                cb();
-            }.bind(this),
-            error: function(xhr, status, err) {
-                console.log('Error in UserList.Initialize:'+err);
-                cb();
-            }.bind(this)
-        });
+        console.log('UserLists.initialize using cache:'+this.iscached);
+        if(!this.iscached)
+        {
+            $.ajax({
+                url: this.listUrl,
+                datatype: 'json',
+                success: function(data) {
+                    console.log('UserList.Initialize: success');
+                    this.iscached = true;
+                    if(Array.isArray(data))
+                    {
+                        this.listitemsprivate = data.filter(function(item) { return (item.type == this.Private)}.bind(this));
+                        this.listitemsshared = data.filter(function(item) { return (item.type == this.Shared)}.bind(this));
+                        this.listitemspublic = data.filter(function(item) { return (item.type == this.Public)}.bind(this));
+                    }
+                    cb();
+                }.bind(this),
+                error: function(xhr, status, err) {
+                    console.log('Error in UserList.Initialize:'+err);
+                    cb();
+                }.bind(this)
+            });
+        }
+        else cb();
     },
     getAllOfType: function(listtype) {
         switch (listtype) {
-            case PRIVATE:
+            case this.Private:
                 return this.listitemsprivate;
-            case SHARED:
+            case this.Shared:
                 return this.listitemsshared;
-            case PUBLIC:
+            case this.Public:
                 return this.listitemspublic;
             default:
                 return [];
         }
     },
+    encryptClearText: function(cleardata, paraphrase) {
+        return (cleardata+'-'+paraphrase).split('').reverse().join('');
+    },
     createList: function(itemtitle, itemtype, itemencrypttext) {
-        return UserListIem.Inititalize('key0',itemtitle, itemtype, itemencrypttext, '');
+        return new UserListItem(itemtitle, itemtype, itemencrypttext, '');
     },
     addList: function(newlist) {
         switch (newlist.type) {
-            case PRIVATE:
+            case this.Private:
                 this.listitemsprivate.push(newlist);
                 break;
-            case SHARED:
+            case this.Shared:
                 this.listitemsshared.push(newlist);
                 break;
-            case PUBLIC:
+            case this.Public:
                 this.listitemspublic.push(newlist);
                 break;
             default:

@@ -24,10 +24,10 @@ var LoggedBar = React.createClass({
     return (
         <ul className="nav navbar-nav navbar-right">
           <li>
-            <span className="navbar-brand" >{'Welcome back, '+this.props.loggeduser.email}</span>
+            <span className="navbar-brand navbar-logo-color">{this.props.loggeduser.email}</span>
           </li>
           <li>
-            <a className="navbar-brand" onClick={this.loggingOut}>Logout</a>
+            <button className="form-control btn-info" onClick={this.loggingOut}>Loggout</button>
           </li>
         </ul>
     );

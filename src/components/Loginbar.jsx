@@ -9,14 +9,21 @@ var Router = require('react-router');
 var Link = Router.Link;
 
 var LoginBar = React.createClass({
+  mixins: [Router.Navigation],
+  loggingIn: function() {
+    this.transitionTo('login');
+  },
+  register: function() {
+    this.transitionTo('register');
+  },
   render: function() {
     return (
         <ul className="nav navbar-nav navbar-right">
           <li>
-            <Link className="navbar-brand" to="login">Login</Link>
+            <button className="form-control btn-info" onClick={this.loggingIn}>Login</button>
           </li>
           <li>
-            <Link className="navbar-brand" to="register">Register</Link>
+            <button className="form-control btn-info" onClick={this.register}>Register</button>
           </li>
         </ul>
       );
