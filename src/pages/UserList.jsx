@@ -58,19 +58,16 @@ var UserListPage = React.createClass({
         <div className="row">
           <div className="col-sm-12">
             <div className="row">
-              <div className="col-xs-6 col-sm-10 col-md-10 col-lg-10">
-                <h3>My Lists</h3>
-              </div>
-              <div className="col-xs-6 col-sm-2 col-md-2 col-lg-2">
-                <button type="button" className="btn btn-default btn-lg" onClick={this.newList}>Add New List</button>
-              </div>
+              <h3>My Lists&nbsp;<button type="button" className="btn btn-default btn-sm btn-info" onClick={this.newList}><span className="glyphicon glyphicon-plus"></span></button></h3>
             </div>
             <div className="row">
               <nav class="navbar navbar-inverse" role="navigation">
                 <div className="container">
                   <ul className="nav nav-tabs">
                     <li role="presentation" onClick={this.changeListType.bind(this, UserListHelper.Private)} className={(this.state.listtype == UserListHelper.Private? 'active' : '')}>
-                      <a href="#">{UserListHelper.Private} <span className='badge'>{UserListHelper.listitemsprivate.length}</span></a>
+                      <a href="#">
+                        &nbsp;{UserListHelper.Private} <span className='badge'>{UserListHelper.listitemsprivate.length}</span>
+                      </a>
                     </li>
                     <li role="presentation" onClick={this.changeListType.bind(this, UserListHelper.Shared)} className={(this.state.listtype == UserListHelper.Shared? 'active' : '')}>
                       <a href="#">{UserListHelper.Shared} <span className='badge'>{UserListHelper.listitemsshared.length}</span></a>

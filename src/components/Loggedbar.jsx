@@ -24,7 +24,7 @@ var LoggedBar = React.createClass({
     return (
         <ul className="nav navbar-nav navbar-right">
           <li>
-            <span className="navbar-brand navbar-logo-color">{this.props.loggeduser.email}</span>
+            <span className="navbar-brand navbar-logo-color">{this.props.loggeduser.nickname}</span>
           </li>
           <li>
             <button className="form-control btn-info" onClick={this.loggingOut}>Loggout</button>

@@ -47,6 +47,7 @@ var Loginform = React.createClass({
     
     var emailtxt = this.refs.email.getDOMNode().value.trim();
     var passwordtxt = this.refs.password.getDOMNode().value.trim();
+    var nicknametxt = '';
     if(this.props.isOnline)
     {
       if(!emailtxt || !passwordtxt)
@@ -74,11 +75,13 @@ var Loginform = React.createClass({
     }
     else
     {
+      nicknametxt = 'cram';
       emailtxt = "test6@test.com";
       passwordtxt = "006";
     }
     var currentUser = {
-      email : emailtxt
+      email : emailtxt,
+      nickname : nicknametxt
     }
     this.refs.email.getDOMNode().value = '';
     this.refs.password.getDOMNode().value = '';
