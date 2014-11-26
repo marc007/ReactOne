@@ -26,14 +26,12 @@ var UserLists = {
     Timeout: 0,
 
     initialize: function(cb) {
-        console.log('UserLists.initialize using cache:'+this.iscached);
         if(!this.iscached)
         {
             $.ajax({
                 url: this.listUrl,
                 datatype: 'json',
                 success: function(data) {
-                    console.log('UserList.Initialize: success');
                     this.iscached = true;
                     if(Array.isArray(data))
                     {

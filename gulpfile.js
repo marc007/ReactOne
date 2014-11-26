@@ -8,6 +8,9 @@
 // Include Gulp and other build automation tools and utilities
 // See: https://github.com/gulpjs/gulp/blob/master/docs/API.md
 var gulp = require('gulp');
+var jshint = require('gulp-jshint');
+var jsx = require('gulp-jsx');
+var tap = require('gulp-tap');
 var $ = require('gulp-load-plugins')();
 var del = require('del');
 var path = require('path');
@@ -118,7 +121,7 @@ gulp.task('styles', function () {
   return gulp.src('src/styles/bootstrap.less')
     .pipe($.plumber())
     .pipe($.less({
-      sourceMap: !RELEASE,
+      sourceMap: true, //!RELEASE,
       sourceMapBasepath: __dirname
     }))
     .on('error', console.error.bind(console))
@@ -127,6 +130,20 @@ gulp.task('styles', function () {
     .pipe($.if(RELEASE, $.minifyCss()))
     .pipe(gulp.dest(DEST + '/css'))
     .pipe($.size({title: 'styles'}));
+});
+
+// JSHint
+gulp.task('jshint', function() {
+  gulp.src('./src/*.js')
+    .pipe(jshint())
+    .pipe(jshint.reporter('default'));
+});
+
+// JSX
+gulp.task('jsx', function() {
+  return gulp.src('src/**/*.jsx')
+    .pipe(tap(function (file,t) {console.log(file.path)}))
+    .pipe(jsx())
 });
 
 // Bundle
@@ -157,7 +174,7 @@ gulp.task('bundle', function (cb) {
 
 // Build the app from source code
 gulp.task('build', ['clean'], function (cb) {
-  runSequence(['vendor', 'assets', 'datas', 'images', 'pages', 'styles', 'bundle'], cb);
+  runSequence(['jsx','vendor', 'assets', 'datas', 'images', 'pages', 'styles', 'bundle'], cb);
 });
 
 // Launch a lightweight HTTP Server

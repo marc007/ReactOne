@@ -12,6 +12,7 @@ var Router = require('react-router');
 var Button = require('react-bootstrap').Button;
 
 var UserListHelper = require('../models/list-in-memory.js');
+var ParseToolHelper = require('../libs/parse-tool.js');
 
 // Parse Initialization
 // Parse.initialize("VzfpPQ473axJ5uRnQJlLwP35DgsaybTzy9JdSpKs", "qaBwzCR8kV0WSNIdjbudVELukVVIYBj1JbWdbD7q");    
@@ -40,6 +41,16 @@ var Loginform = React.createClass({
       this.setState({isLoading: false});
       this.transitionTo('home');
   },
+  successLogin: function() {
+    this.props.onUserLogin();
+    this.transitionTo('userlist');
+  },
+  errorLogin: function() {
+    this.setState({
+      isLoading : false,
+      message: ParseToolHelper.message
+    });
+  },
   handleLogin: function(e) {
     e.preventDefault();
     
@@ -47,61 +58,8 @@ var Loginform = React.createClass({
     
     var emailtxt = this.refs.email.getDOMNode().value.trim();
     var passwordtxt = this.refs.password.getDOMNode().value.trim();
-    var nicknametxt = '';
-    if(this.props.isOnline)
-    {
-      if(!emailtxt || !passwordtxt)
-      {
-        //return;
-      }
-      // Parse.User.logIn(email, password, {
-      //     success: function(user) {
-      //         var currentUser = Parse.User.current();
-      //         this.setState({
-      //           message : 'login successful!',
-      //           messageclass : 'alert alert-info'
-      //         });
-      //         this.props.onUserLogin(currentUser);
-      //         return;
-      //     }.bind(this),
-      //     error: function(user,error) {
-      //         this.setState({
-      //           message : 'login not successful! --> '+error.message,
-      //           messageclass : 'alert alert-danger'
-      //         });
-      //         return;
-      //     }.bind(this)
-      // })
-    }
-    else
-    {
-      nicknametxt = 'cram';
-      emailtxt = "test6@test.com";
-      passwordtxt = "006";
-    }
-    var currentUser = {
-      email : emailtxt,
-      nickname : nicknametxt
-    }
-    this.refs.email.getDOMNode().value = '';
-    this.refs.password.getDOMNode().value = '';
-    this.props.onUserLogin(currentUser);
-    
-    this.setState({isLoading: false});
-    this.transitionTo('userlist');
 
-    // setTimeout(function() {
-
-    //   this.refs.email.getDOMNode().value = '';
-    //   this.refs.password.getDOMNode().value = '';
-    //   this.props.onUserLogin(currentUser);
-    //   this.setState({isLoading: false});
-  
-    //   this.transitionTo('userlist');
-      
-    // }.bind(this), UserListHelper.Timeout);
-
-    return;
+    ParseToolHelper.initialize(emailtxt, passwordtxt, this.successLogin, this.errorLogin);
   },
   render: function() {
     var isLoading = this.state.isLoading;

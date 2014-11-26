@@ -16,11 +16,9 @@ var Navbar = React.createClass({
     this.props.onUserLogout();
   },
   render: function() {
-    var LoginNav = (this.props.currentuser === null ? 
+    var LoginNav = (!this.props.islogged ? 
                         <LoginBar /> : 
-                        <LoggedBar loggeduser={this.props.currentuser}  
-                                    onUserLogout={this.logoutUser} 
-                                    isOnline={isOnline} />);
+                        <LoggedBar usernickname={this.props.nickname} onUserLogout={this.logoutUser} />)
     return (
       <nav class="navbar navbar-default" role="navigation">
         <div className="navbar-top">

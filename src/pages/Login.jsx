@@ -8,13 +8,13 @@ var React = require('react');
 var Loginform = require('../components/Loginform.jsx');
 
 var LoginPage = React.createClass({
-    loginUser: function(usr) {
-      this.props.onUserLogin(usr);  
+    loginUser: function() {
+      this.props.onUserLogin();  
     },
     render: function() {
         return (
         	<div className="container">
-        		<Loginform isOnline={isOnline} onUserLogin={this.loginUser} />
+        		<Loginform onUserLogin={this.loginUser} />
         	</div>
         );
     }
