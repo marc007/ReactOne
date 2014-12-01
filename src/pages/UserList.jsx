@@ -9,6 +9,21 @@ var Router = require('react-router');
 var Link = Router.Link;
 
 var UserListHelper = require('../models/list-in-memory.js');
+var LoginPage = require('../pages/Login.jsx');
+var ParseToolHelper = require('../libs/parse-tool.js');
+
+var Authentication = {
+  statics: {
+    willTransitionTo: function (transition) {
+      //console.log('Authentication');
+      //console.log('logged:'+ParseToolHelper.islogged);
+      if (!ParseToolHelper.islogged) {
+        LoginPage.attemptedTransition = transition;
+        transition.redirect('/login');
+      }
+    }
+  }
+};
 
 var ListItemWrapper = React.createClass({
   render: function() {
@@ -19,7 +34,7 @@ var ListItemWrapper = React.createClass({
 });
 
 var UserListPage = React.createClass({
-  mixins: [Router.Navigation],
+  mixins: [Authentication, Router.Navigation],
   
   getInitialState: function() {
     //console.log('getInitialState');
@@ -51,7 +66,6 @@ var UserListPage = React.createClass({
     this.transitionTo('newlist');
   },
   render: function() {
-    //console.log('render');
     var filter = this.state.listtype;
     return (
       <div className="container">

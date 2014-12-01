@@ -4,18 +4,12 @@
 
 'use strict';
 
-          // <!-- <input type="email" ref="email" className="form-control" placeholder="Email address" required autofocus /> -->
-          // <!-- <input type="password" ref="password" className="form-control" placeholder="Password" required /> -->
-
 var React = require('react');
 var Router = require('react-router');
 var Button = require('react-bootstrap').Button;
 
 var UserListHelper = require('../models/list-in-memory.js');
 var ParseToolHelper = require('../libs/parse-tool.js');
-
-// Parse Initialization
-// Parse.initialize("VzfpPQ473axJ5uRnQJlLwP35DgsaybTzy9JdSpKs", "qaBwzCR8kV0WSNIdjbudVELukVVIYBj1JbWdbD7q");    
 
 var Loginform = React.createClass({
   mixins: [Router.Navigation],
@@ -43,7 +37,6 @@ var Loginform = React.createClass({
   },
   successLogin: function() {
     this.props.onUserLogin();
-    this.transitionTo('userlist');
   },
   errorLogin: function() {
     this.setState({
@@ -59,7 +52,7 @@ var Loginform = React.createClass({
     var emailtxt = this.refs.email.getDOMNode().value.trim();
     var passwordtxt = this.refs.password.getDOMNode().value.trim();
 
-    ParseToolHelper.initialize(emailtxt, passwordtxt, this.successLogin, this.errorLogin);
+    ParseToolHelper.login(emailtxt, passwordtxt, this.successLogin, this.errorLogin);
   },
   render: function() {
     var isLoading = this.state.isLoading;

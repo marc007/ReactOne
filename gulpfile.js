@@ -174,12 +174,11 @@ gulp.task('bundle', function (cb) {
 
 // Build the app from source code
 gulp.task('build', ['clean'], function (cb) {
-  runSequence(['jsx','vendor', 'assets', 'datas', 'images', 'pages', 'styles', 'bundle'], cb);
+  runSequence(['vendor', 'assets', 'datas', 'images', 'pages', 'styles', 'bundle'], cb);
 });
 
 // Launch a lightweight HTTP Server
 gulp.task('serve', function (cb) {
-
   watch = true;
 
   runSequence('build', function () {

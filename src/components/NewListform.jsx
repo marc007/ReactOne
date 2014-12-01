@@ -7,6 +7,7 @@
 var React = require('react');
 var Router = require('react-router');
 var UserListHelper = require('../models/list-in-memory.js');
+var ParseToolHelper = require('../libs/parse-tool.js');
 
 var NewListform = React.createClass({
   mixins: [Router.Navigation],
@@ -20,7 +21,8 @@ var NewListform = React.createClass({
         itemcleartext: 'this is the clear text',
         itempassphrase: '',
         itemencrypttext: '',
-        itemtype: UserListHelper.Private
+        itemtype: UserListHelper.Private,
+        message: ''
       };
   },
   componentDidMount: function() {
@@ -56,16 +58,29 @@ var NewListform = React.createClass({
     
     this.setState({isSaving: true});
     
-    var newlist = UserListHelper.createList(this.state.itemtitle, this.state.itemtype, this.state.itemencrypttext);
-    UserListHelper.addList(newlist);
-    
-    setTimeout(function() {
+    // var newlist = UserListHelper.createList(this.state.itemtitle, this.state.itemtype, this.state.itemencrypttext);
+    // UserListHelper.addList(newlist);
 
-      this.refs.passphrase.getDOMNode().value = '';
-      this.setState({isSaving: false});
-      this.transitionTo('userlist');
-      
-    }.bind(this), UserListHelper.Timeout);
+    var newuserlist = new ParseList();
+    newuserlist.set("title", this.state.itemtitle);
+    newuserlist.set("type", this.state.itemtype);
+
+    newuserlist.set("encrypteddata", this.state.itemencrypttext);
+    newuserlist.set("parentkey", '');
+    newuserlist.setACL(new Parse.ACL(ParseToolHelper.ParseUser));
+    newuserlist.save(null, {
+      success: function(userlist) {
+        this.refs.passphrase.getDOMNode().value = '';
+        this.setState({isSaving: false});
+        this.transitionTo('userlist');
+      }.bind(this),
+      error: function(userlist, error) {
+        this.setState({
+          message : 'new list failed:'+error.message,
+          isSaving : false
+        });
+      }.bind(this)
+    });
 
     return;
   },
@@ -119,6 +134,15 @@ var NewListform = React.createClass({
                         </div>
                       </div>
                     </div>
+                    {(this.state.message.length > 0 ? 
+                      <div className="form-group alert alert-danger" role="alert">
+                        <span className="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>&nbsp;
+                        <span className="sr-only">Error: </span>
+                        {this.state.message}
+                      </div>
+                    : 
+                      <span></span>
+                    )}
                 </form>
               </div>
             </div>

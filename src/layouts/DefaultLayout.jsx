@@ -6,6 +6,7 @@
 
 var React = require('react');
 var Router = require('react-router');
+var RouteHandler = Router.RouteHandler;
 
 var Navbar = require('../components/Navbar');
 var Jumbotron = require('../components/Jumbotron');
@@ -44,7 +45,7 @@ var DefaultLayout = React.createClass({
       <div>
         <Navbar islogged={this.state.islogged} nickname={nickname} onUserLogout={this.logoutUser} />
 		    <Jumbotron islogged={this.state.islogged} />
-        <this.props.activeRouteHandler onUserLogin={this.loginUser} onUserRegister={this.registerUser}/>
+        <RouteHandler islogged={this.state.islogged} onUserLogin={this.loginUser} onUserRegister={this.registerUser}/>
         <Navbarbottom />
       </div>
     );

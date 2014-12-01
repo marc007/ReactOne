@@ -5,6 +5,8 @@
 'use strict';
 
 var React = require('react');
+var Router = require('react-router');
+
 var EditListform = require('../components/EditListform.jsx');
 
 var EditListItem = React.createClass({
@@ -23,6 +25,10 @@ var EditListItem = React.createClass({
 });
 
 var EditListPage = React.createClass({
+  mixins: [ Router.State ],
+  
+  url: '../datas/userlist.json',
+  
   getInitialState: function() {
     return {
       isloading: true,
@@ -30,12 +36,12 @@ var EditListPage = React.createClass({
     };
   },
   componentDidMount: function() {
-    var key = this.props.params.keyItem;
+    var key = this.getParams().keyItem;
     $.ajax({
-      url: this.props.url,
+      url: this.url,
       datatype: 'json',
-      success: function(data) {
-        var key = this.props.params.keyItem;
+      success: function(data, key) {
+        //var key = this.getParams().keyItem;
         var datafiltered = data.filter(function(item) { return (item.key === key);})
         var li = (datafiltered.length == 1 ? datafiltered : null);
         this.setState({listitem : li, isloading : false});

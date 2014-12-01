@@ -23,12 +23,12 @@ module.exports = function (release) {
     bail: true, //!release,
     cache: !release,
     debug: !release,
-    devtool: false,
+    devtool: false, //'#inline-source-map', //false,
     entry: './src/App.jsx',
 
     stats: {
       colors: true,
-      reasons: true, //!release
+      reasons: !release
     },
 
     plugins: release ? [
