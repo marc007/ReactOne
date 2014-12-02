@@ -41,23 +41,37 @@ var UserListPage = React.createClass({
     return {
       listtype: UserListHelper.Private,
       listitems : [],
-      listitemkey: ''
+      listitemkey: '',
+      message: ''
     };
   },
   dataLoaded: function dataloaded() {
     //console.log('dataLoaded');
+    // this.setState({
+    //   listitems : UserListHelper.getAllOfType(this.state.listtype)
+    // });
+  },
+  successGetLists: function() {
+    console.log(ParseToolHelper.listsuser);
     this.setState({
-      listitems : UserListHelper.getAllOfType(this.state.listtype)
+      listitems : ParseToolHelper.getlists(this.state.listtype)
+    });
+  },
+  errorGetLists: function() {
+    this.setState({
+      message: ParseToolHelper.message,
+      listitems : []
     });
   },
   componentDidMount: function() {
     //console.log('componentDidMount');
-    UserListHelper.initialize(this.dataLoaded);
+    ParseToolHelper.getalllists(this.successGetLists, this.errorGetLists);
+    // UserListHelper.initialize(this.dataLoaded);
   },
   changeListType: function(newtype, e) {
     e.preventDefault();
     this.setState({
-      listitems : UserListHelper.getAllOfType(newtype),
+      listitems : ParseToolHelper.getlists(newtype),
       listtype : newtype      
     });
   },
@@ -98,6 +112,15 @@ var UserListPage = React.createClass({
                 })}
               </div>
             </div>
+            {(this.state.message.length > 0 ? 
+              <div className="form-group alert alert-danger" role="alert">
+                <span className="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>&nbsp;
+                <span className="sr-only">Error: </span>
+                {this.state.message}
+              </div>
+            : 
+              <span></span>
+            )}
           </div>
         </div>
       </div>

@@ -44,6 +44,7 @@ var ParseTool = {
     islogged: false,
     message: '',
     loggeduser: null,
+    listsuser: [],
 
     login: function(email, password, successCB, errorCB) {
         if(!this.islogged)
@@ -105,14 +106,15 @@ var ParseTool = {
             Parse.User.logOut();
         }
         this.loggeduser = null;
+        this.listsuser = [];
         this.islogged = false;
         this.message = '';
     },
-    newlist: function(title, type, encrypteddata, parentkey,successCB, errorCB) {
+    newlist: function(title, listtype, encrypteddata, parentkey,successCB, errorCB) {
         var newuserlist = new ParseList();
         newuserlist.fill(
             title,
-            type,
+            listtype,
             encrypteddata,
             parentkey,
             this.loggeduser.currentuser
@@ -127,19 +129,37 @@ var ParseTool = {
           }.bind(this)
         });
     },
-
-    getalllists: function() {
+    getalllists: function(successCB,errorCB) {
         var collection = new ParseListCollection();
         collection.fetch({
             success: function(collection) {
+                this.listsuser = [];
                 collection.each(function(object) {
-                    console.warn(object);
-                });
-            },
+                    var list = {
+                        key: object.id,
+                        title: object.get("title"),
+                        type: object.get("type")
+                    };
+                    this.listsuser.push(list);
+                }.bind(this));
+                console.log(this.listsuser);
+                successCB && successCB();
+                return;
+            }.bind(this),
             error: function(collection, error) {
-                // The collection could not be retrieved.
-            }
+                this.message = error.message;
+                errorCB && errorCB();
+                return;
+            }.bind(this)
         });
+    },
+    getlists: function(listtype) {
+        if(Array.isArray(this.listsuser))
+        {
+            var filteredlist = this.listsuser.filter(function(item) { return (item.type == listtype)}.bind(this));
+            console.log(filteredlist);
+            return filteredlist;
+        }
     }
     
 };
