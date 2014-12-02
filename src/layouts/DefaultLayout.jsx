@@ -40,7 +40,7 @@ var DefaultLayout = React.createClass({
     this.transitionTo('home');
   },
   render: function() {
-    var nickname = (this.state.islogged ? ParseToolHelper.ParseUser.nickname : '');
+    var nickname = (this.state.islogged ? ParseToolHelper.loggeduser.nickname : '');
     return (
       <div>
         <Navbar islogged={this.state.islogged} nickname={nickname} onUserLogout={this.logoutUser} />

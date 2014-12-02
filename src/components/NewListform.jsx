@@ -53,35 +53,30 @@ var NewListform = React.createClass({
     }.bind(this), UserListHelper.Timeout);
 
   },
+  successSave: function() {
+    this.refs.passphrase.getDOMNode().value = '';
+    this.setState({isSaving: false});
+    this.transitionTo('userlist');
+  },
+  errorSave: function() {
+    this.setState({
+      message : 'new list failed:'+error.message,
+      isSaving : false
+    });
+  },
   handleSave: function(e) {
     e.preventDefault();
     
     this.setState({isSaving: true});
     
-    // var newlist = UserListHelper.createList(this.state.itemtitle, this.state.itemtype, this.state.itemencrypttext);
-    // UserListHelper.addList(newlist);
-
-    var newuserlist = new ParseList();
-    newuserlist.set("title", this.state.itemtitle);
-    newuserlist.set("type", this.state.itemtype);
-
-    newuserlist.set("encrypteddata", this.state.itemencrypttext);
-    newuserlist.set("parentkey", '');
-    newuserlist.setACL(new Parse.ACL(ParseToolHelper.ParseUser));
-    newuserlist.save(null, {
-      success: function(userlist) {
-        this.refs.passphrase.getDOMNode().value = '';
-        this.setState({isSaving: false});
-        this.transitionTo('userlist');
-      }.bind(this),
-      error: function(userlist, error) {
-        this.setState({
-          message : 'new list failed:'+error.message,
-          isSaving : false
-        });
-      }.bind(this)
-    });
-
+    ParseToolHelper.newlist(
+      this.state.itemtitle,
+      this.state.itemtype,
+      this.state.itemencrypttext,
+      '',
+      this.successSave, 
+      this.errorSave
+    );
     return;
   },
   handleCancel : function() {

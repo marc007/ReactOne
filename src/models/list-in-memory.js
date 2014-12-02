@@ -39,15 +39,17 @@ var UserLists = {
                         this.listitemsshared = data.filter(function(item) { return (item.type == this.Shared)}.bind(this));
                         this.listitemspublic = data.filter(function(item) { return (item.type == this.Public)}.bind(this));
                     }
-                    cb();
+                    cb && cb();
                 }.bind(this),
                 error: function(xhr, status, err) {
                     console.log('Error in UserList.Initialize:'+err);
-                    cb();
+                    cb && cb();
                 }.bind(this)
             });
         }
-        else cb();
+        else {
+            cb && cb();
+        }
     },
     getAllOfType: function(listtype) {
         switch (listtype) {
