@@ -2,21 +2,26 @@
 
 Parse.initialize("VzfpPQ473axJ5uRnQJlLwP35DgsaybTzy9JdSpKs", "qaBwzCR8kV0WSNIdjbudVELukVVIYBj1JbWdbD7q");
 
-function ListItem(id,type,title,createdon, updatedon) {
-    var self = this;
-    self.ObjectId = id;
-    self.Type = type;
-    self.Title = title;
-    self.CreatedOn = createdon;
-    self.UpdatedOn = updatedon;
-    return self;
-} 
+// function ListItem(id,type,title,createdon, updatedon) {
+//     var self = this;
+//     self.ObjectId = id;
+//     self.Type = type;
+//     self.Title = title;
+//     self.CreatedOn = createdon;
+//     self.UpdatedOn = updatedon;
+//     return self;
+// } 
 
+var ListTypes = {
+    PRIVATE : 'Private',
+    SHARED : 'Shared',
+    PUBLIC : 'Public'
+};
 
 var ParseList = Parse.Object.extend("List",{
     defaults: {
       title: "default title",
-      type : "Private"
+      type : ListTypes.PRIVATE
     },
 
     initialize: function() {
@@ -45,6 +50,10 @@ var ParseTool = {
     message: '',
     loggeduser: null,
     listsuser: [],
+    listtypes: ListTypes,
+    listsuserprivatecount: 0,
+    listsusersharedcount: 0,
+    listsuserpubliccount: 0,
 
     login: function(email, password, successCB, errorCB) {
         if(!this.islogged)
@@ -133,6 +142,9 @@ var ParseTool = {
         var collection = new ParseListCollection();
         collection.fetch({
             success: function(collection) {
+                this.listsuserprivatecount = 0;
+                this.listsusersharedcount = 0;
+                this.listsuserpubliccount = 0;
                 this.listsuser = [];
                 collection.each(function(object) {
                     var list = {
@@ -140,9 +152,19 @@ var ParseTool = {
                         title: object.get("title"),
                         type: object.get("type")
                     };
+                    switch (list.type) {
+                        case ListTypes.PRIVATE:
+                            this.listsuserprivatecount++;
+                            break;
+                        case ListTypes.SHARED:
+                            this.listsusersharedcount++;
+                            break;
+                        case ListTypes.PUBLIC:
+                            this.listsuserpubliccount++;
+                            break;
+                    }
                     this.listsuser.push(list);
                 }.bind(this));
-                console.log(this.listsuser);
                 successCB && successCB();
                 return;
             }.bind(this),
@@ -156,12 +178,15 @@ var ParseTool = {
     getlists: function(listtype) {
         if(Array.isArray(this.listsuser))
         {
-            var filteredlist = this.listsuser.filter(function(item) { return (item.type == listtype)}.bind(this));
-            console.log(filteredlist);
-            return filteredlist;
+            return this.listsuser.filter(function(item) { return (item.type == listtype)}.bind(this));
+        }
+    },
+    getlistitem: function(itemkey) {
+        if(Array.isArray(this.listsuser))
+        {
+            return this.listsuser.filter(function(item) { return (item.key == itemkey)}.bind(this));
         }
     }
-    
 };
 
 function LoggedUser(parseuser) {

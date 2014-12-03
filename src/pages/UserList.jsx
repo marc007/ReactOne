@@ -15,8 +15,6 @@ var ParseToolHelper = require('../libs/parse-tool.js');
 var Authentication = {
   statics: {
     willTransitionTo: function (transition) {
-      //console.log('Authentication');
-      //console.log('logged:'+ParseToolHelper.islogged);
       if (!ParseToolHelper.islogged) {
         LoginPage.attemptedTransition = transition;
         transition.redirect('/login');
@@ -37,22 +35,14 @@ var UserListPage = React.createClass({
   mixins: [Authentication, Router.Navigation],
   
   getInitialState: function() {
-    //console.log('getInitialState');
     return {
-      listtype: UserListHelper.Private,
+      listtype: ParseToolHelper.listtypes.PRIVATE,
       listitems : [],
       listitemkey: '',
       message: ''
     };
   },
-  dataLoaded: function dataloaded() {
-    //console.log('dataLoaded');
-    // this.setState({
-    //   listitems : UserListHelper.getAllOfType(this.state.listtype)
-    // });
-  },
   successGetLists: function() {
-    console.log(ParseToolHelper.listsuser);
     this.setState({
       listitems : ParseToolHelper.getlists(this.state.listtype)
     });
@@ -64,9 +54,7 @@ var UserListPage = React.createClass({
     });
   },
   componentDidMount: function() {
-    //console.log('componentDidMount');
     ParseToolHelper.getalllists(this.successGetLists, this.errorGetLists);
-    // UserListHelper.initialize(this.dataLoaded);
   },
   changeListType: function(newtype, e) {
     e.preventDefault();
@@ -92,16 +80,20 @@ var UserListPage = React.createClass({
               <nav class="navbar navbar-inverse" role="navigation">
                 <div className="container">
                   <ul className="nav nav-tabs">
-                    <li role="presentation" onClick={this.changeListType.bind(this, UserListHelper.Private)} className={(this.state.listtype == UserListHelper.Private? 'active' : '')}>
-                      <a href="#">
-                        &nbsp;{UserListHelper.Private} <span className='badge'>{UserListHelper.listitemsprivate.length}</span>
-                      </a>
+                    <li role="presentation" 
+                      onClick={this.changeListType.bind(this, ParseToolHelper.listtypes.PRIVATE)} 
+                      className={(this.state.listtype == ParseToolHelper.listtypes.PRIVATE? 'active' : '')}>
+                        <a href="#">{ParseToolHelper.listtypes.PRIVATE} <span className='badge'>{ParseToolHelper.listsuserprivatecount}</span></a>
                     </li>
-                    <li role="presentation" onClick={this.changeListType.bind(this, UserListHelper.Shared)} className={(this.state.listtype == UserListHelper.Shared? 'active' : '')}>
-                      <a href="#">{UserListHelper.Shared} <span className='badge'>{UserListHelper.listitemsshared.length}</span></a>
+                    <li role="presentation" 
+                      onClick={this.changeListType.bind(this, ParseToolHelper.listtypes.SHARED)} 
+                      className={(this.state.listtype == ParseToolHelper.listtypes.SHARED? 'active' : '')}>
+                        <a href="#">{ParseToolHelper.listtypes.SHARED} <span className='badge'>{ParseToolHelper.listsusersharedcount}</span></a>
                     </li>
-                    <li role="presentation" onClick={this.changeListType.bind(this, UserListHelper.Public)} className={(this.state.listtype == UserListHelper.Public? 'active' : '')}>
-                      <a href="#">{UserListHelper.Public} <span className='badge'>{UserListHelper.listitemspublic.length}</span></a>
+                    <li role="presentation" 
+                      onClick={this.changeListType.bind(this, ParseToolHelper.listtypes.PUBLIC)} 
+                      className={(this.state.listtype == ParseToolHelper.listtypes.PUBLIC? 'active' : '')}>
+                        <a href="#">{ParseToolHelper.listtypes.PUBLIC} <span className='badge'>{ParseToolHelper.listsuserpubliccount}</span></a>
                     </li>
                   </ul>
                 </div>

@@ -8,12 +8,13 @@ var React = require('react');
 var Router = require('react-router');
 
 var EditListform = require('../components/EditListform.jsx');
+var ParseToolHelper = require('../libs/parse-tool.js');
 
 var EditListItem = React.createClass({
   render: function() {
     var li = this.props.listitem;
     var loading = this.props.isloading;
-    if (li != null) {
+    if (li != null && li.length == 1) {
       return (
         <EditListform isOnline={isOnline} item={li[0]} />
       );
@@ -37,20 +38,14 @@ var EditListPage = React.createClass({
   },
   componentDidMount: function() {
     var key = this.getParams().keyItem;
-    $.ajax({
-      url: this.url,
-      datatype: 'json',
-      success: function(data, key) {
-        //var key = this.getParams().keyItem;
-        var datafiltered = data.filter(function(item) { return (item.key === key);})
-        var li = (datafiltered.length == 1 ? datafiltered : null);
-        this.setState({listitem : li, isloading : false});
-      }.bind(this),
-      error: function(xhr, status, err) {
-        console.error(url, status, err.toString());
-        this.setState({isloading : false});
-      }.bind(this)
-    });
+    var li = ParseToolHelper.getlistitem(key);
+    if(li != null)
+    {
+      this.setState({
+        listitem : li, 
+        isloading : false
+      });
+    }
   },
   render: function() {
     return (

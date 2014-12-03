@@ -34,9 +34,8 @@ var routes = (
         <Route name="login" handler={LoginPage} />
         <Route name="register" handler={RegisterPage} />
         <Route name="newlist" handler={NewListPage} url='../datas/userlist.json' />
-        <Route name="userlist" handler={UserListPage} url='../datas/userlist.json'>
-            <Route name="editlist" path=":keyItem" handler={EditListPage} />
-        </Route>
+        <Route name="userlist" handler={UserListPage} url='../datas/userlist.json' />
+        <Route name="editlist" path=":keyItem" handler={EditListPage} />
         <DefaultRoute handler={DefaultPage} />
         <NotFoundRoute handler={FourOFourPage}/>
         <Redirect from="error" to="home" />
