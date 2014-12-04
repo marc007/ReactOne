@@ -6,7 +6,7 @@
 
 var React = require('react');
 var Router = require('react-router');
-var UserListHelper = require('../models/list-in-memory.js');
+
 var ParseToolHelper = require('../libs/parse-tool.js');
 
 var EditListform = React.createClass({
@@ -14,18 +14,26 @@ var EditListform = React.createClass({
   
   getInitialState: function() {
       return {
+        isDecrypting: false,
         isEncrypting: false,
         isSaving: false,
-        itemkey: 0,
-        itemtitle: 'test new list',
-        itemcleartext: 'this is the clear text',
-        itempassphrase: '',
+        itemkey: '',
+        itemtitle: '',
+        itemcleartext: '',
+        itemdecryptpassphrase: '',
+        itemencryptpassphrase: '',
         itemencrypttext: '',
-        itemtype: UserListHelper.Private,
+        itemtype: ParseToolHelper.listtypes.PRIVATE,
         message: ''
       };
   },
   componentDidMount: function() {
+    this.setState({
+      itemkey : this.props.item.key,
+      itemtitle: this.props.item.title,
+      itemencrypttext: this.props.item.encrypteddata,
+      itemtype: this.props.item.type
+    });
   },
   handleChangeTitle: function(e) {
     this.setState({itemtitle: event.target.value});    
@@ -33,24 +41,43 @@ var EditListform = React.createClass({
   handleChangeClearText: function(e) {
     this.setState({itemcleartext: event.target.value});    
   },
-  handleChangeParaphrase: function(e) {
-    this.setState({itempassphrase: event.target.value});    
+  handleChangeDecryptParaphrase: function(e) {
+    this.setState({itemdecryptpassphrase: event.target.value});    
+  },
+  handleChangeEncryptParaphrase: function(e) {
+    this.setState({itemencryptpassphrase: event.target.value});    
+  },
+  handleChangeType : function(newtype, e) {
+    e.preventDefault();
+    this.setState({itemtype: newtype});    
+  },
+  handleDecrypt : function(e) {
+    e.preventDefault();
+    
+    this.setState({isDecrypting: true});
+
+    var encrypttext = this.state.itemencrypttext;
+    var pass = this.state.itemdecryptpassphrase;
+    var decrypt = this.props.item.decryptText(encrypttext, pass);
+    
+    this.setState({
+      isDecrypting: false,
+      itemcleartext:  decrypt
+    });
   },
   handleEncrypt : function(e) {
     e.preventDefault();
     
     this.setState({isEncrypting: true});
 
-    setTimeout(function(encrypt) {
-      var cleartext = this.state.itemcleartext;
-      var pass = this.state.itempassphrase;
-      var encrypt = UserListHelper.encryptClearText(cleartext, pass);
-      
-      this.setState({
-        isEncrypting: false,
-        itemencrypttext:  encrypt
-      });
-    }.bind(this), UserListHelper.Timeout);
+    var cleartext = this.state.itemcleartext;
+    var pass = this.state.itemencryptpassphrase;
+    var encrypt = this.props.item.encryptText(cleartext, pass);
+    
+    this.setState({
+      isEncrypting: false,
+      itemencrypttext:  encrypt
+    });
 
   },
   successSave: function() {
@@ -60,7 +87,7 @@ var EditListform = React.createClass({
   },
   errorSave: function() {
     this.setState({
-      message : 'new list failed:'+error.message,
+      message : 'saving list failed:'+error.message,
       isSaving : false
     });
   },
@@ -69,7 +96,8 @@ var EditListform = React.createClass({
     
     this.setState({isSaving: true});
     
-    ParseToolHelper.newlist(
+    ParseToolHelper.updatelist(
+      this.state.itemkey,
       this.state.itemtitle,
       this.state.itemtype,
       this.state.itemencrypttext,
@@ -84,34 +112,70 @@ var EditListform = React.createClass({
       this.transitionTo('userlist');
   },
   render: function() {
+    var isDecrypting = this.state.isDecrypting;
     var isEncrypting = this.state.isEncrypting;
     var isSaving = this.state.isSaving;
+    var classMain = "btn-group btn-group-lg";
+    var classPrivate = classMain + (this.state.itemtype == ParseToolHelper.listtypes.PRIVATE? " active" : "");
+    var classShared = classMain + (this.state.itemtype == ParseToolHelper.listtypes.SHARED? " active" : "");
+    var classPublic = classMain + (this.state.itemtype == ParseToolHelper.listtypes.PUBLIC? " active" : "");
     return (
       <div className="container">
         <div className="row centered-form">
           <div className="col-xs-12 col-sm-12 col-md-12">
             <div className="panel panel-default">
               <div className="panel-heading">
-                <h3 className="panel-title text-center">New {UserListHelper.Private} List</h3>
+                <h3 className="panel-title text-center">Update List [{this.state.itemkey}]</h3>
               </div>
               <div className="panel-body">
                 <form role="form" onSubmit={this.handleSave}>
                     <div className="form-group">
                       <input type="text" ref="title" placeholder="Title" className="form-control" onChange={this.handleChangeTitle} value={this.state.itemtitle} required autofocus />
                     </div>
+                    <div className="form-group btn-group btn-group-justified" role="group" aria-label="List Type">
+                        <div className="btn-group">
+                            <button type="button" 
+                              onClick={this.handleChangeType.bind(this, ParseToolHelper.listtypes.PRIVATE)} 
+                              className={classPrivate}>{ParseToolHelper.listtypes.PRIVATE}</button>
+                        </div>
+                        <div className="btn-group">
+                            <button type="button" 
+                              onClick={this.handleChangeType.bind(this, ParseToolHelper.listtypes.SHARED)} 
+                              className={classShared}>{ParseToolHelper.listtypes.SHARED}</button>
+                        </div>
+                        <div className="btn-group">
+                            <button type="button"
+                              onClick={this.handleChangeType.bind(this, ParseToolHelper.listtypes.PUBLIC)} 
+                              className={classPublic}>{ParseToolHelper.listtypes.PUBLIC}</button>
+                        </div>
+                    </div> 
+                    <div className="form-group">
+                      <textarea ref="listencrypttext" className="form-control" placeholder="Enter your paraphrase first!" rows="3" value={this.state.itemencrypttext} required readOnly></textarea>
+                    </div>
+                    <div className="form-group">
+                      <div className="input-group">
+                        <input type="password" ref="decryptpassphrase" placeholder="Decryption Paraphrase" className="form-control" 
+                          onChange={this.handleChangeDecryptParaphrase} value={this.state.itemdecryptpassphrase} required />
+                        <span className="input-group-btn">
+                          <button className="form-control btn-info" type="button" 
+                            disabled={isDecrypting || (this.state.itemdecryptpassphrase.length == 0) } 
+                            onClick={(!isDecrypting ? this.handleDecrypt : null)}>{(isDecrypting ? 'Please wait...' : 'Decrypt')}</button>
+                        </span>
+                      </div>
+                    </div>
                     <div className="form-group">
                       <textarea ref="listcleartext" className="form-control" placeholder="Paste your list here..." rows="3" onChange={this.handleChangeClearText} value={this.state.itemcleartext} required></textarea>
                     </div>
                     <div className="form-group">
                       <div className="input-group">
-                        <input type="password" ref="passphrase" placeholder="Paraphrase" className="form-control" onChange={this.handleChangeParaphrase} value={this.state.itempassphrase} required />
+                        <input type="password" ref="encryptpassphrase" placeholder="Encryption Paraphrase" className="form-control" 
+                          onChange={this.handleChangeEncryptParaphrase} value={this.state.itemencryptpassphrase} required />
                         <span className="input-group-btn">
-                          <button className="form-control btn-info" type="button" disabled={isEncrypting || (this.state.itempassphrase.length == 0) } onClick={(!isEncrypting ? this.handleEncrypt : null)}>{(isEncrypting ? 'Please wait...' : 'Encrypt')}</button>
+                          <button className="form-control btn-info" type="button" 
+                            disabled={isEncrypting || (this.state.itemencryptpassphrase.length == 0) } 
+                            onClick={(!isEncrypting ? this.handleEncrypt : null)}>{(isEncrypting ? 'Please wait...' : 'Encrypt')}</button>
                         </span>
                       </div>
-                    </div>
-                    <div className="form-group">
-                      <textarea ref="listencrypttext" className="form-control" placeholder="Enter your paraphrase first!" rows="3" value={this.state.itemencrypttext} required readOnly></textarea>
                     </div>
                     <div className="row">
                       <div className="col-xs-6 col-sm-6 col-md-6">

@@ -2,16 +2,6 @@
 
 Parse.initialize("VzfpPQ473axJ5uRnQJlLwP35DgsaybTzy9JdSpKs", "qaBwzCR8kV0WSNIdjbudVELukVVIYBj1JbWdbD7q");
 
-// function ListItem(id,type,title,createdon, updatedon) {
-//     var self = this;
-//     self.ObjectId = id;
-//     self.Type = type;
-//     self.Title = title;
-//     self.CreatedOn = createdon;
-//     self.UpdatedOn = updatedon;
-//     return self;
-// } 
-
 var ListTypes = {
     PRIVATE : 'Private',
     SHARED : 'Shared',
@@ -23,7 +13,6 @@ var ParseList = Parse.Object.extend("List",{
       title: "default title",
       type : ListTypes.PRIVATE
     },
-
     initialize: function() {
       if (!this.get("title")) {
         this.set({"title": this.defaults.title});
@@ -32,13 +21,24 @@ var ParseList = Parse.Object.extend("List",{
         this.set({"type": this.defaults.type});
       }
     },
-    
     fill: function(title, type, encrypteddata, parentkey, acluser) {
         this.set("title", title);
         this.set("type", type);
         this.set("encrypteddata", encrypteddata);
         this.set("parentkey", parentkey);
         this.setACL(new Parse.ACL(acluser));
+    },
+    update: function(title, type, encrypteddata, parentkey) {
+        this.set("title", title);
+        this.set("type", type);
+        this.set("encrypteddata", encrypteddata);
+        this.set("parentkey", parentkey);
+    },
+    encryptText: function(cleardata, paraphrase) {
+        return (cleardata+'-'+paraphrase).split('').reverse().join('');
+    },
+    decryptText: function(cleardata, paraphrase) {
+        return (cleardata+'-'+paraphrase).split('').reverse().join('');
     }
 });
 var ParseListCollection = Parse.Collection.extend({
@@ -132,11 +132,25 @@ var ParseTool = {
           success: function(newlist) {
               successCB && successCB(newlist);
           }.bind(this),
-          error: function(userlist, error) {
+          error: function(newlist, error) {
               this.message = error.message;
               errorCB && errorCB();
           }.bind(this)
         });
+    },
+    updatelist: function(key, title, listtype, encrypteddata, parentkey,successCB, errorCB) {
+        var query = new Parse.Query(ParseList);
+        query.get(key, {
+            success: function(updatelist) {
+                updatelist.update(title, listtype, encrypteddata, parentkey);
+                updatelist.save();
+                successCB && successCB(updatelist);
+            }.bind(this),
+            error: function(object, error) {
+                this.message = error.message;
+                errorCB && errorCB();
+            }.bind(this)
+        });        
     },
     getalllists: function(successCB,errorCB) {
         var collection = new ParseListCollection();
@@ -150,7 +164,8 @@ var ParseTool = {
                     var list = {
                         key: object.id,
                         title: object.get("title"),
-                        type: object.get("type")
+                        type: object.get("type"),
+                        encrypteddata: object.get("encrypteddata")
                     };
                     switch (list.type) {
                         case ListTypes.PRIVATE:

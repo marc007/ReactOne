@@ -16,7 +16,7 @@ var EditListItem = React.createClass({
     var loading = this.props.isloading;
     if (li != null && li.length == 1) {
       return (
-        <EditListform isOnline={isOnline} item={li[0]} />
+        <EditListform item={li[0]} />
       );
     }
     else {
@@ -27,8 +27,6 @@ var EditListItem = React.createClass({
 
 var EditListPage = React.createClass({
   mixins: [ Router.State ],
-  
-  url: '../datas/userlist.json',
   
   getInitialState: function() {
     return {
@@ -52,7 +50,7 @@ var EditListPage = React.createClass({
       <div className="container">
         <div className="row">
           <div className="col-sm-12">
-            <EditListItem isOnline={isOnline} listitem={this.state.listitem} isloading={this.state.isloading} />
+            <EditListItem listitem={this.state.listitem} isloading={this.state.isloading} />
           </div>
         </div>
       </div>
