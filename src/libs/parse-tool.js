@@ -61,7 +61,11 @@ var ParseTool = {
             Parse.User.logIn(email, password, {
                success: function(user) {
                    this.islogged = true;
-                   this.loggeduser = new LoggedUser(Parse.User.current());
+                   this.loggeduser = {
+                        email: Parse.User.current().get('email'),
+                        nickname: Parse.User.current().get('nickname'),
+                        currentuser: Parse.User.current()
+                   };
                    successCB && successCB();
                    return;
                }.bind(this),
@@ -203,11 +207,5 @@ var ParseTool = {
         }
     }
 };
-
-function LoggedUser(parseuser) {
-    this.email = parseuser.get('email');
-    this.nickname = parseuser.get('nickname');
-    this.currentuser = parseuser;
-}
 
 module.exports = ParseTool;

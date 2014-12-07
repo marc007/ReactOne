@@ -1,4 +1,7 @@
 Make	Model	Price
-Citroen	2CV	$5,000 
-Porsche	GT3	$200,000 
-Tesla	P85	$70,000 
+Citroen	2CV	$5,000
+Porsche	GT3	$200,000
+Tesla	P85	$70,000
+Citroen	2CV	$5,000
+Porsche	GT3	$200,000
+Tesla	P85	$70,000

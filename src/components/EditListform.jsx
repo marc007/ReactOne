@@ -9,6 +9,34 @@ var Router = require('react-router');
 
 var ParseToolHelper = require('../libs/parse-tool.js');
 
+var ChangeTypeListForm = React.createClass({
+  handleChangeType : function(newtype, e) {
+    e.preventDefault();
+    this.setState({itemtype: newtype});    
+  },
+  render: function() {
+    return(
+      <div className="form-group btn-group btn-group-justified" role="group" aria-label="List Type">
+          <div className="btn-group">
+              <button type="button" 
+                onClick={this.handleChangeType.bind(this, ParseToolHelper.listtypes.PRIVATE)} 
+                className={classPrivate}>{ParseToolHelper.listtypes.PRIVATE}</button>
+          </div>
+          <div className="btn-group">
+              <button type="button" 
+                onClick={this.handleChangeType.bind(this, ParseToolHelper.listtypes.SHARED)} 
+                className={classShared}>{ParseToolHelper.listtypes.SHARED}</button>
+          </div>
+          <div className="btn-group">
+              <button type="button"
+                onClick={this.handleChangeType.bind(this, ParseToolHelper.listtypes.PUBLIC)} 
+                className={classPublic}>{ParseToolHelper.listtypes.PUBLIC}</button>
+          </div>
+      </div> 
+      );    
+  }
+});
+
 var EditListform = React.createClass({
   mixins: [Router.Navigation],
   
@@ -46,10 +74,6 @@ var EditListform = React.createClass({
   },
   handleChangeEncryptParaphrase: function(e) {
     this.setState({itemencryptpassphrase: event.target.value});    
-  },
-  handleChangeType : function(newtype, e) {
-    e.preventDefault();
-    this.setState({itemtype: newtype});    
   },
   handleDecrypt : function(e) {
     e.preventDefault();
@@ -125,32 +149,12 @@ var EditListform = React.createClass({
           <div className="col-xs-12 col-sm-12 col-md-12">
             <div className="panel panel-default">
               <div className="panel-heading">
-                <h3 className="panel-title text-center">Update List [{this.state.itemkey}]</h3>
+                <h3 className="panel-title text-center">Update {ParseToolHelper.listtypes.PRIVATE} List [{this.state.itemkey}]</h3>
               </div>
               <div className="panel-body">
                 <form role="form" onSubmit={this.handleSave}>
                     <div className="form-group">
                       <input type="text" ref="title" placeholder="Title" className="form-control" onChange={this.handleChangeTitle} value={this.state.itemtitle} required autofocus />
-                    </div>
-                    <div className="form-group btn-group btn-group-justified" role="group" aria-label="List Type">
-                        <div className="btn-group">
-                            <button type="button" 
-                              onClick={this.handleChangeType.bind(this, ParseToolHelper.listtypes.PRIVATE)} 
-                              className={classPrivate}>{ParseToolHelper.listtypes.PRIVATE}</button>
-                        </div>
-                        <div className="btn-group">
-                            <button type="button" 
-                              onClick={this.handleChangeType.bind(this, ParseToolHelper.listtypes.SHARED)} 
-                              className={classShared}>{ParseToolHelper.listtypes.SHARED}</button>
-                        </div>
-                        <div className="btn-group">
-                            <button type="button"
-                              onClick={this.handleChangeType.bind(this, ParseToolHelper.listtypes.PUBLIC)} 
-                              className={classPublic}>{ParseToolHelper.listtypes.PUBLIC}</button>
-                        </div>
-                    </div> 
-                    <div className="form-group">
-                      <textarea ref="listencrypttext" className="form-control" placeholder="Enter your paraphrase first!" rows="3" value={this.state.itemencrypttext} required readOnly></textarea>
                     </div>
                     <div className="form-group">
                       <div className="input-group">
@@ -176,6 +180,9 @@ var EditListform = React.createClass({
                             onClick={(!isEncrypting ? this.handleEncrypt : null)}>{(isEncrypting ? 'Please wait...' : 'Encrypt')}</button>
                         </span>
                       </div>
+                    </div>
+                    <div className="form-group">
+                      <textarea ref="listencrypttext" className="form-control" placeholder="Enter your paraphrase first!" rows="3" value={this.state.itemencrypttext} required readOnly></textarea>
                     </div>
                     <div className="row">
                       <div className="col-xs-6 col-sm-6 col-md-6">
