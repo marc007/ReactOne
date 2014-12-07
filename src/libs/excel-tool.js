@@ -180,6 +180,9 @@ function assembleObjects(tokenizedLines) {
 }
 
 var ExcelTool = {
+    listroots : [],
+    listobjects : [],
+    
     parse: function (text) {
         var config = {
                 lineEnding:       /[\r\n]/,
@@ -214,9 +217,38 @@ var ExcelTool = {
         // Step 4: Using first line's tokens as a list of object literal keys, assemble remainder of lines into an array of objects.
         objects = assembleObjects(tokenizedLines);
 
+        this.listobjects = objects;
         return objects;
+    },
+    findroots: function() {
+        var roots = [];
+        var isroot = false;
+        
+        for (var property in this.listobjects[0]) {
+            if (this.listobjects[0].hasOwnProperty(property)) {
+                var vals = [];
+                isroot = false;
+                for (var j = 0; j < this.listobjects.length; j++) {
+                    var obj = this.listobjects[j];
+                    var val = obj[property];
+                    if (vals.indexOf(val) == -1) {
+                        vals.push(val);
+                    }
+                    else
+                    {
+                        isroot = true;
+                        roots.push(property);
+                        break;
+                    }
+                }
+                if(!isroot) {
+                    break;
+                }
+            }
+        }
+        this.listroots = roots;
+        return roots;
     }
-    
 };
 
 module.exports = ExcelTool;

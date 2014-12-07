@@ -15,6 +15,12 @@ var HomePage = React.createClass({
     }
   },
   handleConvert: function() {
+    var source = this.refs.originallist.getDOMNode().value;
+    var listobjects = ExcelToolHelper.parse(source);
+    console.log(listobjects);
+    var listroots = ExcelToolHelper.findroots();
+    console.log(listroots);
+    
     // var source = this.refs.originallist.getDOMNode().value;
     // console.log(source);
     // this.setState({
@@ -27,6 +33,7 @@ var HomePage = React.createClass({
   handleSourceList: function() {
     var source = this.refs.originallist.getDOMNode().value;
     var listobject = ExcelToolHelper.parse(source);
+    console.log(listobject);
 
     var cols = [];
     var tbl = '<table cellpadding="0" cellspacing="0" border="0" class="display" id="listdata"><thead><tr>';
@@ -58,7 +65,7 @@ var HomePage = React.createClass({
                 <textarea ref="originallist" 
                           className="form-control" 
                           placeholder="Paste your list here..." 
-                          rows="3" required onChange={this.handleSourceList}>
+                          rows="3" required onChange={this.handleConvert}>
                 </textarea>
               </div>
               <div className="form-group">
