@@ -31,6 +31,7 @@ var HomePage = React.createClass({
     
   },
   handleSourceList: function() {
+    return;
     var source = this.refs.originallist.getDOMNode().value;
     var listobject = ExcelToolHelper.parse(source);
     console.log(listobject);
@@ -65,7 +66,7 @@ var HomePage = React.createClass({
                 <textarea ref="originallist" 
                           className="form-control" 
                           placeholder="Paste your list here..." 
-                          rows="3" required onChange={this.handleConvert}>
+                          rows="3" required onChange={this.handleSourceList}>
                 </textarea>
               </div>
               <div className="form-group">
