@@ -282,6 +282,7 @@ var ExcelTool = {
       var result = '';
       if( key.length > 0 && txt.length > 0) {
         var len = this.getkey(key);
+        console.log('encrypt(len):'+len);
         var i, s = '', fin = 0;
         
         // txt = this.getversion()+txt;
@@ -309,7 +310,7 @@ var ExcelTool = {
         
         for( i=0; i<txt.length; i+=3 ) {
           tmp = txt.substring(i,i+3);
-          t = unescape( '%' + ( parseInt(tmp) - len ).toString(16) );
+          t = decodeURIComponent( '%' + ( parseInt(tmp,10) - len ).toString(16) );
           if( t=='%9' ) {
             s += '\t';
           } else if( t=='%d' ) {

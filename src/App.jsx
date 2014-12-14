@@ -26,10 +26,11 @@ var UserListPage = require('./pages/UserList.jsx');
 var EditListPage = require('./pages/EditList.jsx');
 var NewListPage = require('./pages/NewList.jsx');
 var FourOFourPage = require('./pages/FourOFour.jsx');
+var TestPage = require('./pages/Test.jsx');
 
 var routes = (
     <Route handler={DefaultPage}>
-        <Route name="home" path="/" handler={HomePage} />
+        <Route name="home" handler={HomePage} />
         <Route name="privacy" handler={PrivacyPage} />
         <Route name="login" handler={LoginPage} />
         <Route name="register" handler={RegisterPage} />
@@ -39,6 +40,7 @@ var routes = (
         <DefaultRoute handler={DefaultPage} />
         <NotFoundRoute handler={FourOFourPage}/>
         <Redirect from="error" to="home" />
+        <Route name="test" path="/" handler={TestPage} />
     </Route>
   );
 
