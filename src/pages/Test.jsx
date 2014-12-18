@@ -52,26 +52,30 @@ var HomePage = React.createClass({
     });
   },
   handleSourceList: function() {
-    return;
+    // return;
     var source = this.refs.originallist.getDOMNode().value;
     var listobject = ExcelToolHelper.parse(source);
     console.log(listobject);
+    var listroots = ExcelToolHelper.findroots();
+    console.log(listroots);
 
-    var cols = [];
-    var tbl = '<table cellpadding="0" cellspacing="0" border="0" class="display" id="listdata"><thead><tr>';
-    for (var property in listobject[0]) {
-        if (listobject[0].hasOwnProperty(property)) {
-          tbl += '<th>'+property+'</th>';
-          cols.push({"data" : property});
-        }
-    }
-    tbl += '</tr></thead></table>';
+    var tree = ExcelToolHelper.createtree();
+    
+    // var cols = [];
+    // var tbl = '<table cellpadding="0" cellspacing="0" border="0" class="display" id="listdata"><thead><tr>';
+    // for (var property in listobject[0]) {
+    //     if (listobject[0].hasOwnProperty(property)) {
+    //       tbl += '<th>'+property+'</th>';
+    //       cols.push({"data" : property});
+    //     }
+    // }
+    // tbl += '</tr></thead></table>';
 
-    $('#listtable').html(tbl);
-    $('#listdata').dataTable( {
-        "data" : listobject,
-        "columns" : cols
-    } );   
+    // $('#listtable').html(tbl);
+    // $('#listdata').dataTable( {
+    //     "data" : listobject,
+    //     "columns" : cols
+    // } );   
   },
   render: function() {
     return (

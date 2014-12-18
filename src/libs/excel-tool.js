@@ -249,6 +249,61 @@ var ExcelTool = {
         this.listroots = roots;
         return roots;
     },
+    isroot : function(property) {
+        var isroot = false;
+        for (var j = 0; j < this.listroots.length; j++) {
+            var root = this.listroots[j];
+            console.log('root:' + root)
+            if (root == property) {
+                isroot = true;
+                break;
+            }
+        }
+        return isroot;
+    },
+    createtree: function() {
+        var tree = {};
+        for (var j = 0; j < this.listobjects.length; j++) {
+            var obj = this.listobjects[j];
+            console.log(obj);
+            for (var property in this.listobjects[0]) {
+                var val = obj[property];
+                console.log(property+':'+val);
+                if(this.isroot(property)) {
+                    console.log('isroot');
+                }
+            }
+        }        
+    },
+
+    fillTree: function(name,steps) {
+        var current = null,
+        existing = null,
+        i = 0;
+        for (var y = 0; y < steps.length; y++) {
+          if (y==0) {
+             if (!tree.children||typeof tree.children == 'undefined'){
+                tree = { text: steps[y], leaf: false, children: [] };
+             }
+             current = tree.children;
+          } else {
+             existing = null;
+             for (i=0; i < current.length; i++) {
+                if (current[i].text === steps[y]) {
+                   existing = current[i];
+                   break;
+                }
+             }
+             if (existing) {
+                current = existing.children;
+             } else {
+                current.push({ text: steps[y], leaf: false, children: [] });
+                current = current[current.length - 1].children;
+             }
+          }
+        }
+        current.push({ text: name, leaf: true })
+    },
 
     getkey: function (key) {
       var i, len = 0;

@@ -1,7 +1,7 @@
-Make	Model	Price
-Citroen	2CV	$5,000
-Porsche	GT3	$200,000
-Tesla	P85	$70,000
-Citroen	2CV	$7,000
-Porsche	GT3	$250,000
-Tesla	S80	$75,000
+Country	Make	Model	Price
+France	Citroen	4CV	$5,000
+Germany	Porsche	GTS	$200,000
+USA	Tesla	P85	$70,000
+France	Citroen	2CV	$7,000
+Germany	Porsche	GT3	$250,000
+USA	Ford	ESC	$75,000
