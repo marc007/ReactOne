@@ -4,8 +4,8 @@
 
 'use strict';
 var appInfo = {
-    name : 'XL2List Top',
-    line : 'SHARING LISTS MADE EASIER AND SECURE'
+    name : 'MyApp',
+    line : 'Blah Blah Blah...' //'SHARING LISTS MADE EASIER AND SECURE'
 };
 
 var React = require('react');
