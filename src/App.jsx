@@ -26,10 +26,13 @@ var UserListPage = require('./pages/UserList.jsx');
 var EditListPage = require('./pages/EditList.jsx');
 var NewListPage = require('./pages/NewList.jsx');
 var FourOFourPage = require('./pages/FourOFour.jsx');
-var TestPage = require('./pages/Test.jsx');
+var TestEncryptDecryptPage = require('./pages/TestEncryptDecrypt.jsx');
+var TestTreeListPage = require('./pages/TestTreeList.jsx');
 
 var routes = (
     <Route handler={DefaultPage}>
+        <Route name="testtreelist" path="/" handler={TestTreeListPage} />
+        <Route name="testencryptdecrypt" handler={TestEncryptDecryptPage} />
         <Route name="home" handler={HomePage} />
         <Route name="privacy" handler={PrivacyPage} />
         <Route name="login" handler={LoginPage} />
@@ -40,7 +43,6 @@ var routes = (
         <DefaultRoute handler={DefaultPage} />
         <NotFoundRoute handler={FourOFourPage}/>
         <Redirect from="error" to="home" />
-        <Route name="test" path="/" handler={TestPage} />
     </Route>
   );
 

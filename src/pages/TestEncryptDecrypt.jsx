@@ -15,22 +15,6 @@ var HomePage = React.createClass({
       decryptedlist: ''
     }
   },
-  handleConvert: function() {
-    var source = this.refs.originallist.getDOMNode().value;
-    var listobjects = ExcelToolHelper.parse(source);
-    console.log(listobjects);
-    var listroots = ExcelToolHelper.findroots();
-    console.log(listroots);
-    
-    // var source = this.refs.originallist.getDOMNode().value;
-    // console.log(source);
-    // this.setState({
-    //     convertedlist : source
-    //   });
-    // var listobject = ExcelToolHelper.parse(source);
-    // console.log(listobject);
-    
-  },
   handleEncrypt: function() {
     var source = this.refs.originallist.getDOMNode().value;
     var key = this.refs.encryptpassphrase.getDOMNode().value;
@@ -51,38 +35,12 @@ var HomePage = React.createClass({
         decryptedlist : decrypted
     });
   },
-  handleSourceList: function() {
-    // return;
-    var source = this.refs.originallist.getDOMNode().value;
-    var listobject = ExcelToolHelper.parse(source);
-    console.log(listobject);
-    var listroots = ExcelToolHelper.findroots();
-    console.log(listroots);
-
-    var tree = ExcelToolHelper.createtree();
-    
-    // var cols = [];
-    // var tbl = '<table cellpadding="0" cellspacing="0" border="0" class="display" id="listdata"><thead><tr>';
-    // for (var property in listobject[0]) {
-    //     if (listobject[0].hasOwnProperty(property)) {
-    //       tbl += '<th>'+property+'</th>';
-    //       cols.push({"data" : property});
-    //     }
-    // }
-    // tbl += '</tr></thead></table>';
-
-    // $('#listtable').html(tbl);
-    // $('#listdata').dataTable( {
-    //     "data" : listobject,
-    //     "columns" : cols
-    // } );   
-  },
   render: function() {
     return (
       <div className="container">
         <div className="row">
           <div className="col-sm-12">
-            <h3>Test Page</h3>
+            <h3>Test Encrypt/Decrypt Page</h3>
           </div>
         </div>
         <div className="row">
@@ -91,11 +49,8 @@ var HomePage = React.createClass({
               <textarea ref="originallist" 
                         className="form-control" 
                         placeholder="Paste your list here..." 
-                        rows="3" required onChange={this.handleSourceList}>
+                        rows="3" required>
               </textarea>
-            </div>
-            <div className="form-group">
-              <div id="listtable"></div>       
             </div>
             <div className="form-group">
               <div className="input-group">
