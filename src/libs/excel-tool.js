@@ -182,6 +182,7 @@ function assembleObjects(tokenizedLines) {
 var ExcelTool = {
     listroots : [],
     listobjects : [],
+    tree : {},
     
     parse: function (text) {
         var config = {
@@ -253,7 +254,7 @@ var ExcelTool = {
         var isroot = false;
         for (var j = 0; j < this.listroots.length; j++) {
             var root = this.listroots[j];
-            console.log('root:' + root)
+            //console.log('root:' + root)
             if (root == property) {
                 isroot = true;
                 break;
@@ -262,16 +263,15 @@ var ExcelTool = {
         return isroot;
     },
     createtree: function() {
-        var tree = {};
         for (var j = 0; j < this.listobjects.length; j++) {
             var obj = this.listobjects[j];
-            console.log(obj);
+            console.log('object_'+j+":"+obj);
             for (var property in this.listobjects[0]) {
                 var val = obj[property];
-                console.log(property+':'+val);
-                if(this.isroot(property)) {
-                    console.log('isroot');
-                }
+                console.log((this.isroot(property)? '*' : '')+property+':'+val);
+                // if(this.isroot(property)) {
+                //     console.log('isroot');
+                // }
             }
         }        
     },
@@ -281,11 +281,11 @@ var ExcelTool = {
         existing = null,
         i = 0;
         for (var y = 0; y < steps.length; y++) {
-          if (y==0) {
-             if (!tree.children||typeof tree.children == 'undefined'){
-                tree = { text: steps[y], leaf: false, children: [] };
+          if (y===0) {
+             if (!this.tree.children||typeof this.tree.children == 'undefined'){
+                this.tree = { text: steps[y], leaf: false, children: [] };
              }
-             current = tree.children;
+             current = this.tree.children;
           } else {
              existing = null;
              for (i=0; i < current.length; i++) {

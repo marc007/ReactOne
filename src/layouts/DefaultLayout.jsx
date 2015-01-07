@@ -7,6 +7,7 @@
 var React = require('react');
 var Router = require('react-router');
 var RouteHandler = Router.RouteHandler;
+var DocumentTitle = require('react-document-title');
 
 var Navbar = require('../components/Navbar');
 var Jumbotron = require('../components/Jumbotron');
@@ -42,12 +43,14 @@ var DefaultLayout = React.createClass({
   render: function() {
     var nickname = (this.state.islogged ? ParseToolHelper.loggeduser.nickname : '');
     return (
-      <div>
-        <Navbar islogged={this.state.islogged} nickname={nickname} onUserLogout={this.logoutUser} />
-		    <Jumbotron islogged={this.state.islogged} />
-        <RouteHandler islogged={this.state.islogged} onUserLogin={this.loginUser} onUserRegister={this.registerUser}/>
-        <Navbarbottom />
-      </div>
+      <DocumentTitle title={this.props.AppInfo.name}>
+        <div>
+          <Navbar AppInfo={this.props.AppInfo} islogged={this.state.islogged} nickname={nickname} onUserLogout={this.logoutUser} />
+  		    <Jumbotron AppInfo={this.props.AppInfo} islogged={this.state.islogged} />
+          <RouteHandler islogged={this.state.islogged} onUserLogin={this.loginUser} onUserRegister={this.registerUser}/>
+          <Navbarbottom />
+        </div>
+      </DocumentTitle>
     );
   }
 });

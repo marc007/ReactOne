@@ -14,8 +14,8 @@ var Jumbotron = React.createClass({
           (!this.props.islogged ?
             <div className="jumbotron">
               <div className="container text-center">
-                <h1><span className="glyphicon glyphicon-list-alt jumbotron-logo-color"></span> XL2List</h1>
-                <p>Sharing lists made easier and secure</p>
+                <h1><span className="glyphicon glyphicon-list-alt jumbotron-logo-color"></span> {this.props.AppInfo.name}</h1>
+                <p>{this.props.AppInfo.line}</p>
               </div>
             </div>
             :

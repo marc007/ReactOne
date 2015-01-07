@@ -3,6 +3,10 @@
  */
 
 'use strict';
+var appInfo = {
+    name : 'XL2List Top',
+    line : 'SHARING LISTS MADE EASIER AND SECURE'
+};
 
 var React = require('react');
 var Router = require('react-router');
@@ -48,5 +52,5 @@ var routes = (
 
 Router.run(routes, Router.HistoryLocation, function(Handler, state) {
     var params = state.params;
-    React.render(<Handler params={params} />, document.body);    
+    React.render(<Handler params={params} AppInfo={appInfo} />, document.body);    
 })

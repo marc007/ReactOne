@@ -24,7 +24,7 @@ var Navbar = React.createClass({
         <div className="navbar-top">
           <div className="container">
             <Link className="navbar-brand row" to="home">
-              <span className="glyphicon glyphicon-list-alt navbar-logo-color"></span> XL2List
+              <span className="glyphicon glyphicon-list-alt navbar-logo-color"></span> {this.props.AppInfo.name}
             </Link>
             <div className="navbar-collapse collapse">
                 {LoginNav}
